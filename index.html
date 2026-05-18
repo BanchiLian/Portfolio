@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Portfólio - Elian Mori</title>
   <meta name="description" content="Portfólio de Elian Mori - Desenvolvedor Web Full Stack, especializado em soluções front-end e back-end.">
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1995/1995574.png">
@@ -221,6 +221,7 @@
       pointer-events: none;
     }
 
+    /* Cria a "setinha" apontando para o ícone */
     .sidebar.collapsed .nav-text::after {
       content: '';
       position: absolute;
@@ -232,6 +233,7 @@
       border-color: transparent var(--primary) transparent transparent;
     }
 
+    /* A Mágica: Aparece suavemente quando o mouse passa em cima do botão */
     .sidebar.collapsed nav button:hover .nav-text,
     .sidebar.collapsed #btnTheme:hover .nav-text {
       opacity: 1;
@@ -341,7 +343,7 @@
       gap: 10px;
     }
 
-    /* 🚀 SEÇÃO INÍCIO */
+    /* 🚀 SEÇÃO INÍCIO (DUAS COLUNAS + BORDA 8-BITS) */
     .hero-section {
       padding: 4rem 3rem;
       display: flex;
@@ -349,6 +351,7 @@
       position: relative;
     }
 
+    /* 🎮 BORDA 8-BITS RETRO */
     .pixel-border {
       position: absolute;
       top: 15px; left: 15px; right: 15px; bottom: 15px;
@@ -357,6 +360,7 @@
       z-index: 0;
     }
 
+    /* Pontas quadradas da Borda */
     .pixel-corner {
       position: absolute;
       width: 14px; height: 14px;
@@ -368,6 +372,7 @@
     .pc-bl { bottom: -9px; left: -9px; }
     .pc-br { bottom: -9px; right: -9px; }
 
+    /* Estilo dos Emojis na borda */
     .emoji-deco {
       position: absolute;
       font-size: 1.6rem;
@@ -388,6 +393,7 @@
     .emoji-side-left { top: 40%; left: -22px; flex-direction: column; }
     .emoji-side-right { top: 40%; right: -22px; flex-direction: column; }
 
+    /* O layout dividido fica acima da borda */
     .hero-split {
       display: flex;
       align-items: center;
@@ -396,6 +402,7 @@
       z-index: 1;
     }
 
+    /* Esquerda: Foto, Links e Status */
     .hero-left {
       flex: 4;
       display: flex;
@@ -449,6 +456,7 @@
       box-shadow: 0 4px 15px var(--shadow);
     }
 
+    /* Bolinha Online */
     .status-dot-wrapper {
       display: inline-flex;
       align-items: center;
@@ -461,6 +469,7 @@
       border-radius: 4px;
     }
 
+    /* Direita: Textos e Projeto */
     .hero-right {
       flex: 6;
       display: flex;
@@ -513,6 +522,7 @@
       color: var(--text);
     }
 
+    /* Badges de Status do Jogador */
     .hero-player-status {
       display: flex;
       gap: 1rem;
@@ -534,6 +544,7 @@
       background: rgba(128, 128, 128, 0.05);
     }
 
+    /* 🔥 MINI-CARD DE PROJETO EM DESTAQUE */
     .featured-project {
       background: var(--bg-light);
       border: 1px solid var(--primary);
@@ -603,6 +614,7 @@
       text-decoration: underline;
     }
 
+    /* Botão WhatsApp Animado */
     .btn-whatsapp-cta {
       display: inline-flex;
       align-items: center;
@@ -1128,6 +1140,86 @@
       margin-bottom: 0.3rem;
     }
 
+    /* NOVOS ESTILOS: Certificações e Ferramentas */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .cert-card {
+      background: var(--bg-light);
+      border-left: 4px solid var(--primary);
+      padding: 1.5rem;
+      border-radius: 4px;
+      box-shadow: 0 4px 15px var(--shadow);
+      transition: 0.3s;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cert-card:hover {
+      transform: translateX(5px);
+      background: var(--bg-card);
+      border-color: var(--primary);
+    }
+
+    .cert-card h4 {
+      color: var(--text-light);
+      margin: 0 0 5px 0;
+      font-size: 1.1rem;
+    }
+
+    .cert-card p {
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+    }
+
+    .cert-card span {
+      color: var(--text);
+      font-size: 0.85rem;
+      display: block;
+    }
+
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .tool-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      padding: 12px 18px;
+      border-radius: 8px;
+      color: var(--text-light);
+      font-weight: 600;
+      transition: 0.3s;
+      font-size: 0.95rem;
+    }
+
+    .tool-badge i {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .tool-badge:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px var(--shadow);
+      background: var(--bg-card);
+    }
+
     /* 📬 ABA DE CONTATO */
     .status-badge {
       display: inline-flex;
@@ -1317,6 +1409,8 @@
       .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
       .contact-cards { grid-template-columns: 1fr; }
       .contact-form { padding: 1.5rem; }
+      
+      .cert-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -1439,8 +1533,8 @@
         <div class="about-story">
           <div class="about-block">
             <div class="about-text">
-              <h3>Desenvolvedor Front-end | Noite e Dia</h3>
-              <p>Trabalho atualmente com **Front-end**, dando vida a interfaces responsivas e intuitivas. Mas minha paixão pela programação não para no horário de expediente: uso minhas horas vagas para estudar **Back-end**, com o objetivo de me tornar um Desenvolvedor Full Stack completo. Acredito que entender as duas pontas do desenvolvimento me permite criar soluções mais inteligentes e integradas.</p>
+              <h3>Do Front ao Back-end, uma jornada completa</h3>
+              <p>Minha jornada na programação é focada no **Front-end**, onde me dedico a criar interfaces que sejam ao mesmo tempo bonitas e fáceis de usar. Mas a curiosidade não me deixa parar por aí. Nas horas vagas, mergulho no universo do **Back-end**, porque meu objetivo é entender a tecnologia de ponta a ponta e ser capaz de construir projetos completos, do servidor até a tela do usuário.</p>
             </div>
             <div class="about-img-container">
               <img src="./perfil.jpg" alt="Elian Mori codando" class="about-photo" loading="lazy">
@@ -1449,8 +1543,8 @@
 
           <div class="about-block">
             <div class="about-text">
-              <h3>Energia e Foco no Esporte 🏐🏃‍♂️</h3>
-              <p>Acredito no equilíbrio entre corpo e mente. Amo atividades físicas! Sou frequentador assíduo da academia (**treino**), adoro **correr** para espairecer e meu esporte favorito do momento é o **futevôlei**. Essa rotina me ajuda a manter o foco, a disciplina e a energia alta, características que levo direto para o meu trabalho com desenvolvimento.</p>
+              <h3>Corpo e mente em equilíbrio 🏐🏃‍♂️</h3>
+              <p>Para mim, o equilíbrio entre corpo e mente é fundamental. Sou apaixonado por atividades físicas: você pode me encontrar na academia (**treino**), **correndo** para organizar as ideias ou na areia, praticando meu esporte favorito do momento, o **futevôlei**. Essa rotina é o que me dá foco, disciplina e a energia que eu levo para cada linha de código.</p>
             </div>
             <div class="about-img-container">
               <img src="./atleta.jpg" alt="Elian Mori praticando esporte" class="about-photo" loading="lazy">
@@ -1459,8 +1553,8 @@
 
           <div class="about-block">
             <div class="about-text">
-              <h3>Estratégia e Equipe nos Games 🎮</h3>
-              <p>Quando quero relaxar (e ao mesmo tempo exercitar a mente), você me encontra nos jogos online. Gosto da imersão de jogos de **modo história e RPG**. Mas meu lado competitivo se destaca no **FPS (Counter-Strike)** e no **MOBA (League of Legends)**. Nesses jogos, desenvolvo habilidades essenciais para a área tech: comunicação rápida, estratégia e, principalmente, **trabalho em equipe sob pressão**.</p>
+              <h3>Estratégia e trabalho em equipe nos games 🎮</h3>
+              <p>Para relaxar e exercitar a mente, meu refúgio são os jogos. Adoro a imersão de um bom **RPG** com uma história envolvente, mas é no **Counter-Strike (FPS)** e no **League of Legends (MOBA)** que meu lado competitivo fala mais alto. Mais do que diversão, os games me ensinaram sobre comunicação, pensamento estratégico e, acima de tudo, a importância de **trabalhar em equipe sob pressão**.</p>
             </div>
             <div class="about-img-container">
               <img src="./gamer.jpg" alt="Elian Mori jogando online" class="about-photo" loading="lazy">
@@ -1647,6 +1741,24 @@
             </div>
           </div>
 
+          <div class="project-card">
+            <img src="https://images.unsplash.com/photo-1612872009319-c98a0c8b8f74?w=800&q=80" alt="App de Treino Futevôlei" class="project-img" loading="lazy">
+            <div class="project-content">
+              <h3 class="project-title">Futevôlei Performance</h3>
+              <p class="project-desc">Um Progressive Web App (PWA) para atletas de futevôlei, focado em treino e alta performance. Funciona offline graças ao uso de Service Workers.</p>
+              <div class="project-tags">
+                <span class="project-tag">PWA</span>
+                <span class="project-tag">Service Worker</span>
+                <span class="project-tag">JavaScript</span>
+                <span class="project-tag">Mobile-First</span>
+              </div>
+              <div class="project-links">
+                <a href="../Treino/Treino/index.html" target="_blank" class="btn-project btn-demo">Ver Projeto</a>
+                <a href="https://github.com/BanchiLian" target="_blank" class="btn-project btn-repo">GitHub</a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1654,7 +1766,7 @@
         <h2>📄 Meu Currículo</h2>
 
         <div class="cv-download-container">
-          <a href="#" class="btn-mega-download" target="_blank">
+          <a href="./curriculo-elian-mori.pdf" download="Curriculo Elian Mori.pdf" class="btn-mega-download">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
@@ -1740,7 +1852,45 @@
             </ul>
           </div>
         </div>
-      </div>
+
+        <h3 class="section-subtitle">
+          <span>🏆</span> Certificações e Especializações
+        </h3>
+        <div class="cert-grid">
+          
+          <div class="cert-card">
+            <h4>Trilha Front-end Avançado</h4>
+            <p>Rocketseat</p>
+            <span>Carga horária: 80h • 2024</span>
+          </div>
+
+          <div class="cert-card">
+            <h4>APIs RESTful com Node.js</h4>
+            <p>Udemy</p>
+            <span>Carga horária: 40h • 2024</span>
+          </div>
+
+          <div class="cert-card">
+            <h4>Lógica de Programação</h4>
+            <p>Curso em Vídeo</p>
+            <span>Carga horária: 60h • 2023</span>
+          </div>
+
+        </div>
+
+        <h3 class="section-subtitle">
+          <span>🛠️</span> Ferramentas de Trabalho
+        </h3>
+        <div class="tools-grid">
+          <div class="tool-badge"><i class="fa-brands fa-git-alt"></i> Git & GitHub</div>
+          <div class="tool-badge"><i class="fa-solid fa-code"></i> VS Code</div>
+          <div class="tool-badge"><i class="fa-brands fa-figma"></i> Figma</div>
+          <div class="tool-badge"><i class="fa-brands fa-linux"></i> Linux / Terminal</div>
+          <div class="tool-badge"><i class="fa-solid fa-database"></i> Banco de Dados</div>
+          <div class="tool-badge"><i class="fa-brands fa-trello"></i> Metodologias Ágeis</div>
+        </div>
+
+        </div>
 
       <div id="sectionContato" class="content-section">
         <h2>📬 Vamos Conversar?</h2>
@@ -1820,7 +1970,7 @@
       </div>
 
       <footer>
-        © 2026 Elian Mori — Todos os direitos reservados.
+        © 2026 Elian Mori — Desenvolvedor Web. Todos os direitos reservados.
       </footer>
     </main>
   </div>
