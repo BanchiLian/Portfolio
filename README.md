@@ -2,7 +2,7 @@
 
 Portfólio pessoal desenvolvido para apresentar minha trajetória, habilidades e projetos como desenvolvedor web. O projeto reúne aplicações independentes construídas com tecnologias nativas da web, com foco em interfaces responsivas, organização, acessibilidade e experiências úteis no dia a dia.
 
-[Acessar o portfólio](https://banchilian.github.io/Portif-lio/) · [Perfil no GitHub](https://github.com/BanchiLian)
+[Acessar o portfólio](https://banchilian.github.io/Portfolio/) · [Perfil no GitHub](https://github.com/BanchiLian)
 
 ## Sobre o projeto
 
@@ -143,8 +143,8 @@ Cada diretório em `projects/` representa uma demonstração independente, acess
 Clone o repositório e acesse a pasta:
 
 ```bash
-git clone https://github.com/BanchiLian/Portif-lio.git
-cd Portif-lio
+git clone https://github.com/BanchiLian/Portfolio.git
+cd Portfolio
 ```
 
 Como o projeto é estático, não existem dependências obrigatórias para visualizar as páginas. Para testar recursos que exigem HTTP, como Service Workers e chamadas de API, utilize um servidor local:
