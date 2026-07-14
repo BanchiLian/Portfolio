@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Polvo</title>
+  <rect width="64" height="64" rx="14" fill="#955251"/>
+  <path
+    d="M18 31C18 20.5 24.3 13 32 13s14 7.5 14 18v7c0 3.3-2.7 6-6 6-2.1 0-4-1.1-5-2.8V47c0 3.3-2.7 6-6 6-2.7 0-5-1.8-5.8-4.3A6 6 0 0 1 13 44.5c0-2.8 1.9-5.2 4.5-5.8.3-.1.5-.3.5-.6V31Z"
+    fill="#fff"
+  />
+  <path
+    d="M46 34v5.5a5.5 5.5 0 0 0 11 0M24 38v9a5 5 0 0 0 10 0v-9"
+    fill="none"
+    stroke="#fff"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+  <circle cx="27" cy="29" r="2.5" fill="#955251"/>
+  <circle cx="37" cy="29" r="2.5" fill="#955251"/>
+</svg>

@@ -1,11 +1,14 @@
 {
   "name": "Futevôlei Performance",
   "short_name": "Futevôlei",
+  "id": "./",
   "start_url": "./index.html",
+  "scope": "./",
+  "lang": "pt-BR",
   "display": "standalone",
   "background_color": "#0d0d0d",
   "theme_color": "#caff04",
-  "description": "App de Treino e Alta Performance",
+  "description": "Aplicativo de treino e alta performance para futevôlei",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3043/3043888.png",

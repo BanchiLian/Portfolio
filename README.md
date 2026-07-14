@@ -1,38 +1,83 @@
-# 👨‍💻 Portfólio Pessoal | Elian Mori
+# Portfólio | Elian Mori
 
-> **Link do Projeto ao vivo:** [(https://banchilian.github.io/Portif-lio/)]
+Portfólio pessoal desenvolvido com HTML, CSS e JavaScript puros para apresentar projetos, habilidades e trajetória profissional.
 
-![Preview do Portfólio](COLOQUE_AQUI_O_LINK_DE_UMA_IMAGEM_DO_SEU_SITE.png)
+**Acesse:** [banchilian.github.io/Portif-lio](https://banchilian.github.io/Portif-lio/)
 
-## 🎯 O Projeto
-Este é o meu portfólio pessoal, desenvolvido para centralizar meus projetos, habilidades e jornada como **Desenvolvedor Full Stack**. 
+## Tecnologias
 
-A principal decisão arquitetural deste projeto foi **não utilizar frameworks** (como React ou Vue) nesta camada inicial. O objetivo foi demonstrar domínio sólido sobre os fundamentos da web moderna: manipulação direta do DOM, CSS avançado (com CSS Custom Properties) e HTML5 semântico.
+- HTML5 semântico
+- CSS3, Flexbox, Grid e Custom Properties
+- JavaScript ES6+
+- LocalStorage para preferência de tema
+- PWA e Service Worker no projeto Futevôlei Performance
 
-## 🛠️ Tecnologias e Arquitetura
+Não há dependências, etapa de build ou pacotes para instalar.
 
-* **HTML5 Semântico:** Estruturação focada em acessibilidade (a11y) e SEO.
-* **CSS3 Avançado:** * Arquitetura de estilos baseada em **CSS Variables** (Custom Properties) para gerenciar um sistema de Design System robusto.
-  * Implementação nativa de **Dark/Light Mode** com persistência de estado via `localStorage`.
-  * Layout fluido utilizando **CSS Grid e Flexbox**, com abordagem *Mobile-First*.
-* **Vanilla JavaScript (ES6+):**
-  * Criação de um sistema de roteamento interno (SPA Simulation) para navegação entre abas sem recarregar a página, garantindo alta performance.
-  * Manipulação eficiente de eventos e DOM.
-* **Integração Serverless:** Formulário de contato funcional integrado à API do **FormSubmit**, permitindo o envio de e-mails diretos sem a necessidade de instanciar um servidor backend intermediário.
+## Estrutura
 
-## 💡 Desafios e Soluções (Mindset Pleno)
+```text
+.
+├── assets/
+│   └── images/
+│       └── perfil.jpg
+├── projects/
+│   ├── clima/
+│   │   └── index.html
+│   ├── dashboard-financeiro/
+│   │   ├── index.html
+│   │   ├── script.js
+│   │   └── style.css
+│   ├── futevolei/
+│   │   ├── index.html
+│   │   ├── manifest.json
+│   │   ├── sw.js
+│   │   └── treino-pessoal.html
+│   └── loja-nexus/
+│       └── index.html
+├── .gitignore
+├── index.html
+└── README.md
+```
 
-1. **Gestão de Estado do Tema (Dark Mode):** * *Problema:* O usuário perdia a preferência de cor ao recarregar a página.
-   * *Solução:* Implementação de um script leve que verifica o `localStorage` no momento do carregamento da página, aplicando a classe `dark-mode` no `body` dinamicamente antes da renderização visual completa para evitar efeitos de *flickering* (piscar a tela).
+## Projetos
 
-2. **Navegação SPA (Single Page Application) com JS Puro:**
-   * *Problema:* Navegações tradicionais com múltiplas páginas HTML causam recarregamentos desnecessários e lentidão.
-   * *Solução:* Estruturei o HTML em seções (sections) ocultas e criei um controlador em JavaScript que altera a exibição (display) dinamicamente, mantendo a aplicação em uma única página, com transições suaves (Fade-In).
+### Nexus Finance Dashboard
 
-## 🚀 Como executar o projeto localmente
+Controle financeiro pessoal com gráficos, orçamentos, metas e persistência local.
 
-Como o projeto foi construído utilizando tecnologias nativas do navegador, não há necessidade de instalar dependências complexas (node_modules).
+### NexusWeather
 
-1. Clone o repositório:
+Interface de previsão do tempo que consulta uma API externa e apresenta temperatura, umidade e vento.
+
+### Nexus Setup
+
+Landing page de e-commerce com catálogo, filtros, carrinho e finalização via WhatsApp.
+
+### Futevôlei Performance
+
+PWA mobile-first para rotinas de treino, matchmaking e scouting, com suporte offline por Service Worker.
+
+## Executar localmente
+
+Use um servidor HTTP local para que recursos como o Service Worker funcionem corretamente:
+
 ```bash
-git clone [https://banchilian.github.io/Portif-lio/](https://banchilian.github.io/Portif-lio/)
+npx serve .
+```
+
+Também é possível usar a extensão Live Server do VS Code. Depois, abra o endereço exibido no terminal.
+
+## Publicação no GitHub Pages
+
+Nas configurações do repositório, acesse **Pages**, selecione **Deploy from a branch**, escolha a branch `main` e a pasta `/ (root)`.
+
+## Observações
+
+- O formulário de contato direciona a mensagem preenchida para o WhatsApp.
+- O currículo em PDF ainda precisa ser adicionado antes de habilitar o download.
+- As fotos secundárias da seção “Sobre” usam imagens externas temporárias e podem ser substituídas por fotos pessoais em `assets/images/`.
+
+---
+
+Desenvolvido por Elian Mori.

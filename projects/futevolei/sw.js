@@ -1,4 +1,4 @@
-const CACHE_NAME = 'futevolei-v1';
+const CACHE_NAME = 'futevolei-v2';
 const urlsToCache = [
   './',
   './index.html',
@@ -13,8 +13,19 @@ self.addEventListener('install', event => {
   );
 });
 
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => Promise.all(
+      keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+    ))
+  );
+  self.clients.claim();
+});
+
 // Faz o app rodar sem internet puxando do cache
 self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {

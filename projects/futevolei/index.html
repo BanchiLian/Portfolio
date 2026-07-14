@@ -307,6 +307,14 @@
   </div>
 
   <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(error => {
+          console.warn('Não foi possível ativar o modo offline.', error);
+        });
+      });
+    }
+
     // --- NAVEGAÇÃO DE TELAS ---
     function goTo(viewId) {
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));

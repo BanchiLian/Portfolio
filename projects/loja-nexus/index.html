@@ -137,10 +137,10 @@
             </div>
 
             <div class="filter-tabs" id="category-filters">
-                <button class="filter-btn active" onclick="filterShop('Todos')">Todos</button>
-                <button class="filter-btn" onclick="filterShop('Periféricos')">Periféricos</button>
-                <button class="filter-btn" onclick="filterShop('Hardware')">Hardware</button>
-                <button class="filter-btn" onclick="filterShop('Móveis')">Estação</button>
+                <button class="filter-btn active" onclick="filterShop('Todos', this)">Todos</button>
+                <button class="filter-btn" onclick="filterShop('Periféricos', this)">Periféricos</button>
+                <button class="filter-btn" onclick="filterShop('Hardware', this)">Hardware</button>
+                <button class="filter-btn" onclick="filterShop('Móveis', this)">Estação</button>
             </div>
 
             <div class="products-grid" id="grid-produtos"></div>
@@ -199,9 +199,9 @@
             `).join('');
         }
 
-        function filterShop(cat) {
+        function filterShop(cat, button) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            button.classList.add('active');
             renderShop(cat);
         }
 
