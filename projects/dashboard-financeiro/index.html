@@ -1,263 +1,82 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Finance 2.0 | Mobile Ready</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090909">
+  <title>Nexus Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="netflix-layout">
-        
-        <div class="sidebar-overlay" onclick="toggleMenu()"></div>
+  <div class="app-shell">
+    <div class="sidebar-overlay" data-action="menu"></div>
+    <aside class="sidebar" aria-label="Menu principal">
+      <a class="brand" href="#dashboard" aria-label="Nexus Finance"><span class="brand-mark">N</span><span>NEXUS</span></a>
+      <nav class="nav-list">
+        <button class="nav-item active" data-section="dashboard"><span>⌂</span>Visão geral</button>
+        <button class="nav-item" data-section="bills"><span>✓</span>Contas fixas</button>
+        <button class="nav-item" data-section="budgets"><span>◔</span>Orçamentos</button>
+        <button class="nav-item" data-section="goals"><span>◎</span>Metas</button>
+        <button class="nav-item" data-section="history"><span>≡</span>Lançamentos</button>
+        <button class="nav-item" data-section="settings"><span>⚙</span>Configurações</button>
+      </nav>
+      <p class="storage-note">Dados salvos neste navegador</p>
+    </aside>
 
-        <nav class="sidebar">
-            <div class="logo">
-                <i class="fa-solid fa-play"></i> NEXUS
-                <button class="mobile-close-btn" onclick="toggleMenu()"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <ul class="nav-links">
-                <li class="active" onclick="navTo('dashboard')"><i class="fa-solid fa-house"></i> <span>Início</span></li>
-                <li onclick="navTo('checklist')"><i class="fa-solid fa-check-double"></i> <span>Checklist</span></li>
-                <li onclick="navTo('budgets')"><i class="fa-solid fa-chart-pie"></i> <span>Orçamentos</span></li>
-                <li onclick="navTo('goals')"><i class="fa-solid fa-bullseye"></i> <span>Metas / Patrimônio</span></li>
-                <li onclick="navTo('history')"><i class="fa-solid fa-list"></i> <span>Histórico</span></li>
-                <li onclick="navTo('settings')"><i class="fa-solid fa-gear"></i> <span>Configurações</span></li>
-            </ul>
-        </nav>
-
-        <main class="main-content">
-            
-            <header class="top-nav">
-                <div class="mobile-nav-left">
-                    <button class="mobile-menu-btn" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
-                    <div class="filter-controls">
-                        <select id="view-mode" onchange="updateFilters()">
-                            <option value="month">Mensal</option>
-                            <option value="year">Anual</option>
-                            <option value="all">Geral</option>
-                        </select>
-                        <select id="filter-year" onchange="refreshApp()"></select>
-                        <select id="filter-month" onchange="refreshApp()">
-                            <option value="01">Jan</option><option value="02">Fev</option><option value="03">Mar</option>
-                            <option value="04">Abr</option><option value="05">Mai</option><option value="06">Jun</option>
-                            <option value="07">Jul</option><option value="08">Ago</option><option value="09">Set</option>
-                            <option value="10">Out</option><option value="11">Nov</option><option value="12">Dez</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="top-actions">
-                    <button class="btn-main-launch" onclick="openModal('modal-transaction')"><i class="fa-solid fa-plus"></i> <span class="hide-mobile">Lançar</span></button>
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=E50914&color=fff" alt="Perfil" class="profile-pic">
-                </div>
-            </header>
-
-            <section id="sec-dashboard" class="page-section active">
-                <div class="hero-balance">
-                    <p class="subtitle">Saldo em Conta Corrente</p>
-                    <div class="balance-wrapper">
-                        <h1 id="main-balance">R$ 0,00</h1>
-                        <button id="btn-eye" onclick="toggleEye()"><i class="fa-solid fa-eye"></i></button>
-                    </div>
-                </div>
-
-                <div id="alerts-container"></div>
-
-                <div class="rail">
-                    <h2 class="rail-title">Sua Carteira</h2>
-                    <div class="rail-cards" id="accounts-rail"></div>
-                </div>
-
-                <div class="rail">
-                    <h2 class="rail-title" id="chart-title-main">Análise do Período</h2>
-                    <div class="rail-cards charts-rail">
-                        <div class="chart-card large-chart">
-                            <h3>Evolução de Caixa</h3>
-                            <div class="canvas-wrap"><canvas id="evolucaoChart"></canvas></div>
-                        </div>
-                    </div>
-                    <div class="rail-cards charts-rail" style="margin-top: 20px;">
-                        <div class="chart-card">
-                            <h3>Distribuição de Patrimônio</h3>
-                            <div class="canvas-wrap"><canvas id="patrimonioChart"></canvas></div>
-                        </div>
-                        <div class="chart-card">
-                            <h3>Top Despesas</h3>
-                            <div class="canvas-wrap"><canvas id="despesasChart"></canvas></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="sec-checklist" class="page-section">
-                <div class="page-header-flex">
-                    <div>
-                        <h2 class="page-title">Contas Fixas</h2>
-                        <p class="page-subtitle">Checklist de obrigações do mês.</p>
-                    </div>
-                    <button class="btn-add-new" onclick="openModal('modal-checklist')"><i class="fa-solid fa-plus"></i> <span class="hide-mobile">Nova Conta</span></button>
-                </div>
-                <div class="checklist-container" id="checklist-grid"></div>
-            </section>
-
-            <section id="sec-budgets" class="page-section">
-                <div class="page-header-flex">
-                    <div>
-                        <h2 class="page-title">Orçamentos</h2>
-                        <p class="page-subtitle">Limites de gastos com alertas.</p>
-                    </div>
-                    <button class="btn-add-new" onclick="openModal('modal-budget')"><i class="fa-solid fa-plus"></i> <span class="hide-mobile">Novo Orçamento</span></button>
-                </div>
-                <div class="grid-cards" id="budgets-grid"></div>
-            </section>
-
-            <section id="sec-goals" class="page-section">
-                <div class="page-header-flex">
-                    <div>
-                        <h2 class="page-title">Metas</h2>
-                        <p class="page-subtitle">Gamifique seus investimentos.</p>
-                    </div>
-                    <button class="btn-add-new" onclick="openModal('modal-goal')"><i class="fa-solid fa-plus"></i> <span class="hide-mobile">Nova Meta</span></button>
-                </div>
-                <div class="grid-cards" id="goals-grid"></div>
-            </section>
-
-            <section id="sec-history" class="page-section">
-                <h2 class="page-title">Histórico</h2>
-                <div class="table-container">
-                    <table class="netflix-table">
-                        <thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Conta</th><th>Valor</th><th>Ação</th></tr></thead>
-                        <tbody id="history-tbody"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="sec-settings" class="page-section">
-                <h2 class="page-title">Configurações</h2>
-                <div class="settings-grid">
-                    <div class="settings-card">
-                        <h3>Contas Bancárias</h3>
-                        <ul id="settings-accounts-list" class="simple-list"></ul>
-                        <form id="form-account" class="inline-form" style="margin-top:15px;">
-                            <input type="text" id="cfg-account-name" placeholder="Nova conta..." required>
-                            <button type="submit" class="btn-submit">Adicionar</button>
-                        </form>
-                    </div>
-                    <div class="settings-card danger-zone">
-                        <h3>Zona de Perigo</h3>
-                        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:15px;">Cuidado: Apagar os dados é irreversível.</p>
-                        <button class="btn-submit btn-danger" onclick="hardReset()">Zerar Todo o Sistema</button>
-                    </div>
-                </div>
-            </section>
-
-        </main>
-    </div>
-
-    <div id="modal-transaction" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('modal-transaction')"><i class="fa-solid fa-xmark"></i></button>
-            <h2>Lançamento</h2>
-            <form id="form-transaction">
-                <div class="form-group">
-                    <label>Descrição</label>
-                    <input type="text" id="t-desc" placeholder="Ex: Ifood, Gasolina, Luz..." required autocomplete="off">
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>Valor (R$)</label><input type="number" id="t-amount" step="0.01" required></div>
-                    <div class="form-group"><label>Data</label><input type="date" id="t-date" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Tipo</label>
-                        <select id="t-type">
-                            <option value="expense">Saída (-)</option>
-                            <option value="income">Entrada (+)</option>
-                            <option value="transfer">Guardar (Meta)</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>Categoria / Meta</label><select id="t-category" required></select></div>
-                </div>
-                <div class="form-group"><label>Conta Origem/Destino</label><select id="t-account" required></select></div>
-                <button type="submit" class="btn-submit">Registrar</button>
-            </form>
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button menu-button" data-action="menu" aria-label="Abrir menu">☰</button>
+        <div class="period-filters">
+          <select id="view-mode" aria-label="Tipo de período"><option value="month">Mensal</option><option value="year">Anual</option><option value="all">Todo o período</option></select>
+          <select id="filter-month" aria-label="Mês"></select>
+          <select id="filter-year" aria-label="Ano"></select>
         </div>
-    </div>
+        <button class="primary-button" data-open="transaction-modal">+ Novo lançamento</button>
+      </header>
 
-    <div id="modal-pay-check" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('modal-pay-check')"><i class="fa-solid fa-xmark"></i></button>
-            <h2>Confirmar Pagamento</h2>
-            <p>Deseja marcar <strong><span id="pay-name"></span></strong> como pago?</p>
-            <form id="form-pay-check" style="margin-top: 20px;">
-                <div class="form-row">
-                    <div class="form-group"><label>Valor (R$)</label><input type="number" id="pay-amount" step="0.01" required></div>
-                    <div class="form-group"><label>Data</label><input type="date" id="pay-date" required></div>
-                </div>
-                <div class="form-group"><label>Debitar de</label><select id="pay-account" required></select></div>
-                <input type="hidden" id="pay-id">
-                <button type="submit" class="btn-submit" style="background:var(--green-money)">Confirmar e Lançar</button>
-            </form>
+      <section id="dashboard" class="page active">
+        <div class="hero">
+          <div><p class="eyebrow">SALDO DISPONÍVEL</p><div class="balance-line"><h1 id="main-balance">R$ 0,00</h1><button id="privacy-button" class="icon-button" aria-label="Ocultar valores">◉</button></div><p id="period-label" class="muted"></p></div>
+          <button class="secondary-button" data-open="transaction-modal">Registrar agora</button>
         </div>
-    </div>
-
-    <div id="modal-checklist" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('modal-checklist')"><i class="fa-solid fa-xmark"></i></button>
-            <h2>Nova Conta Fixa</h2>
-            <form id="form-checklist">
-                <div class="form-group"><label>Descrição</label><input type="text" id="c-name" required></div>
-                <div class="form-row">
-                    <div class="form-group"><label>Valor</label><input type="number" id="c-amount" step="0.01" required></div>
-                    <div class="form-group"><label>Vencimento (Dia)</label><input type="number" id="c-day" min="1" max="31" required></div>
-                </div>
-                <div class="form-group"><label>Categoria</label><select id="c-category" required></select></div>
-                <button type="submit" class="btn-submit">Adicionar</button>
-            </form>
+        <div id="alerts" aria-live="polite"></div>
+        <div class="kpi-grid">
+          <article class="kpi"><span>Entradas</span><strong id="kpi-income" class="positive">R$ 0,00</strong></article>
+          <article class="kpi"><span>Saídas</span><strong id="kpi-expense" class="negative">R$ 0,00</strong></article>
+          <article class="kpi"><span>Resultado do período</span><strong id="kpi-result">R$ 0,00</strong></article>
+          <article class="kpi"><span>Contas fixas pendentes</span><strong id="kpi-pending">R$ 0,00</strong></article>
         </div>
-    </div>
-
-    <div id="modal-budget" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('modal-budget')"><i class="fa-solid fa-xmark"></i></button>
-            <h2>Novo Orçamento</h2>
-            <form id="form-budget">
-                <div class="form-group"><label>Categoria</label><input type="text" id="b-name" required></div>
-                <div class="form-group"><label>Limite Mensal</label><input type="number" id="b-limit" step="0.01" required></div>
-                <div class="form-group"><label>Palavras-Chave (vírgula)</label><input type="text" id="b-keywords"></div>
-                <button type="submit" class="btn-submit">Criar</button>
-            </form>
+        <div class="section-heading"><div><p class="eyebrow">CARTEIRA</p><h2>Suas contas</h2></div></div>
+        <div id="accounts-rail" class="account-grid"></div>
+        <div class="dashboard-grid">
+          <article class="panel chart-wide"><div class="panel-title"><h3>Fluxo financeiro</h3><span id="chart-caption" class="muted"></span></div><div class="chart-wrap"><canvas id="cash-chart"></canvas></div></article>
+          <article class="panel"><div class="panel-title"><h3>Despesas por categoria</h3></div><div class="chart-wrap"><canvas id="expense-chart"></canvas></div></article>
+          <article class="panel"><div class="panel-title"><h3>Últimos lançamentos</h3><button class="text-button" data-section="history">Ver todos</button></div><div id="recent-list" class="activity-list"></div></article>
         </div>
-    </div>
+      </section>
 
-    <div id="modal-goal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('modal-goal')"><i class="fa-solid fa-xmark"></i></button>
-            <h2>Nova Meta</h2>
-            <form id="form-goal">
-                <div class="form-group"><label>Nome</label><input type="text" id="g-name" required></div>
-                <div class="form-group"><label>Objetivo Final (R$)</label><input type="number" id="g-target" step="0.01" required></div>
-                <button type="submit" class="btn-submit">Criar</button>
-            </form>
-        </div>
-    </div>
+      <section id="bills" class="page"><div class="page-header"><div><p class="eyebrow">ROTINA MENSAL</p><h1>Contas fixas</h1><p class="muted">Acompanhe vencimentos e registre pagamentos sem duplicidade.</p></div><button class="secondary-button" data-open="bill-modal">+ Nova conta</button></div><div id="bills-grid" class="card-grid"></div></section>
+      <section id="budgets" class="page"><div class="page-header"><div><p class="eyebrow">CONTROLE</p><h1>Orçamentos</h1><p class="muted">Defina limites mensais por categoria.</p></div><button class="secondary-button" data-open="budget-modal">+ Novo orçamento</button></div><div id="budgets-grid" class="card-grid"></div></section>
+      <section id="goals" class="page"><div class="page-header"><div><p class="eyebrow">PATRIMÔNIO</p><h1>Metas</h1><p class="muted">Separe valores e acompanhe o progresso.</p></div><button class="secondary-button" data-open="goal-modal">+ Nova meta</button></div><div id="goals-grid" class="card-grid"></div></section>
+      <section id="history" class="page"><div class="page-header"><div><p class="eyebrow">MOVIMENTAÇÕES</p><h1>Lançamentos</h1></div><button class="secondary-button" data-open="transaction-modal">+ Novo</button></div><div class="toolbar"><input id="history-search" type="search" placeholder="Buscar descrição, categoria ou conta"><select id="history-type"><option value="all">Todos os tipos</option><option value="income">Entradas</option><option value="expense">Saídas</option><option value="goal">Metas</option></select></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Conta</th><th>Tipo</th><th>Valor</th><th></th></tr></thead><tbody id="history-body"></tbody></table></div></section>
+      <section id="settings" class="page"><div class="page-header"><div><p class="eyebrow">PREFERÊNCIAS</p><h1>Configurações</h1><p class="muted">Organize suas contas e mantenha cópias dos dados.</p></div></div><div class="settings-grid">
+        <article class="panel"><h3>Contas e saldos iniciais</h3><p class="muted small">O saldo inicial é somado aos lançamentos da conta.</p><div id="account-list" class="settings-list"></div><form id="account-form" class="stack-form"><label>Nome<input id="account-name" required maxlength="40" placeholder="Ex.: Conta principal"></label><label>Saldo inicial<input id="account-opening" type="number" step="0.01" value="0" required></label><button class="primary-button" type="submit">Adicionar conta</button></form></article>
+        <article class="panel"><h3>Excel e segurança</h3><p class="muted small">Use CSV para editar lançamentos no Excel. O backup JSON preserva todas as configurações.</p><div class="button-stack"><button class="secondary-button" id="csv-template">Baixar modelo CSV</button><button class="secondary-button" id="csv-export">Exportar lançamentos CSV</button><button class="secondary-button" id="csv-import">Importar CSV do Excel</button><button class="secondary-button" id="backup-export">Baixar backup completo</button><button class="secondary-button" id="backup-import">Restaurar backup</button></div><input id="csv-file" type="file" accept=".csv,text/csv" hidden><input id="backup-file" type="file" accept=".json,application/json" hidden><p id="file-status" class="status" aria-live="polite"></p></article>
+        <article class="panel danger"><h3>Zona de cuidado</h3><p class="muted small">Remove apenas os dados deste aplicativo neste navegador.</p><button class="danger-button" id="reset-app">Apagar dados do Nexus Finance</button></article>
+      </div></section>
+    </main>
+  </div>
 
-    <div id="modal-justification" class="modal-overlay">
-        <div class="modal-content warning-content">
-            <i class="fa-solid fa-triangle-exclamation warning-icon"></i>
-            <h2>Limite Excedido!</h2>
-            <p>Orçamento de <strong id="j-category-name">Categoria</strong> estourado.</p>
-            <form id="form-justification">
-                <div class="form-group"><textarea id="j-reason" rows="3" placeholder="Justificativa..." required></textarea></div>
-                <button type="submit" class="btn-submit btn-danger">Assumir e Salvar</button>
-                <button type="button" class="btn-cancel" onclick="cancelJustification()">Cancelar Lançamento</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <dialog id="transaction-modal"><form id="transaction-form" method="dialog"><div class="modal-head"><div><p class="eyebrow">MOVIMENTAÇÃO</p><h2>Novo lançamento</h2></div><button class="icon-button" value="cancel" formnovalidate aria-label="Fechar">×</button></div><div class="form-grid"><label class="span-2">Descrição<input id="tx-description" required maxlength="80"></label><label>Valor<input id="tx-amount" type="number" min="0.01" step="0.01" required></label><label>Data<input id="tx-date" type="date" required></label><label>Tipo<select id="tx-type"><option value="expense">Saída</option><option value="income">Entrada</option><option value="goal">Guardar em meta</option></select></label><label>Categoria / meta<select id="tx-category" required></select></label><label class="span-2">Conta<select id="tx-account" required></select></label><label class="span-2">Observações<textarea id="tx-notes" rows="2" maxlength="180"></textarea></label></div><button class="primary-button full" type="submit">Salvar lançamento</button></form></dialog>
+  <dialog id="bill-modal"><form id="bill-form" method="dialog"><div class="modal-head"><h2>Nova conta fixa</h2><button class="icon-button" value="cancel" formnovalidate>×</button></div><div class="form-grid"><label class="span-2">Descrição<input id="bill-name" required></label><label>Valor previsto<input id="bill-amount" type="number" min="0.01" step="0.01" required></label><label>Vencimento<input id="bill-day" type="number" min="1" max="31" required></label><label>Categoria<input id="bill-category" required></label><label>Conta<select id="bill-account" required></select></label></div><button class="primary-button full" type="submit">Adicionar</button></form></dialog>
+  <dialog id="budget-modal"><form id="budget-form" method="dialog"><div class="modal-head"><h2>Novo orçamento</h2><button class="icon-button" value="cancel" formnovalidate>×</button></div><label>Categoria<input id="budget-name" required></label><label>Limite mensal<input id="budget-limit" type="number" min="0.01" step="0.01" required></label><button class="primary-button full" type="submit">Criar</button></form></dialog>
+  <dialog id="goal-modal"><form id="goal-form" method="dialog"><div class="modal-head"><h2>Nova meta</h2><button class="icon-button" value="cancel" formnovalidate>×</button></div><label>Nome<input id="goal-name" required></label><label>Valor objetivo<input id="goal-target" type="number" min="0.01" step="0.01" required></label><button class="primary-button full" type="submit">Criar</button></form></dialog>
+  <dialog id="payment-modal"><form id="payment-form" method="dialog"><div class="modal-head"><h2>Registrar pagamento</h2><button class="icon-button" value="cancel" formnovalidate>×</button></div><input id="payment-bill-id" type="hidden"><label>Valor pago<input id="payment-amount" type="number" min="0.01" step="0.01" required></label><label>Data<input id="payment-date" type="date" required></label><label>Conta<select id="payment-account" required></select></label><button class="primary-button full" type="submit">Confirmar pagamento</button></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

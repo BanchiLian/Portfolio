@@ -1,63 +1,109 @@
-# Portfólio | Elian Mori
+# Portfólio — Elian Mori
 
-Portfólio pessoal criado para apresentar minha trajetória, habilidades e projetos como desenvolvedor web. A interface foi desenvolvida com tecnologias nativas da web, priorizando responsividade, acessibilidade, organização e uma experiência visual minimalista.
+Portfólio pessoal desenvolvido para apresentar minha trajetória, habilidades e projetos como desenvolvedor web. O projeto reúne aplicações independentes construídas com tecnologias nativas da web, com foco em interfaces responsivas, organização, acessibilidade e experiências úteis no dia a dia.
 
-[Acessar portfólio](https://banchilian.github.io/Portif-lio/) · [GitHub](https://github.com/BanchiLian)
+[Acessar o portfólio](https://banchilian.github.io/Portif-lio/) · [Perfil no GitHub](https://github.com/BanchiLian)
 
-## Visão geral
+## Sobre o projeto
 
-O projeto funciona como uma aplicação de página única: as seções são alternadas por JavaScript sem recarregar o navegador. A navegação aceita links diretos, como `#projetos` e `#contato`, e a preferência de tema é mantida entre visitas.
+A página principal funciona como uma aplicação de página única. As seções são alternadas com JavaScript sem recarregar o navegador, aceitam acesso direto por URL — como `#projetos` e `#contato` — e mantêm a preferência de tema entre as visitas.
 
-Principais recursos:
+Entre os principais recursos estão:
 
-- layout responsivo para desktop e dispositivos móveis;
-- temas claro e escuro com preferência salva em `localStorage`;
-- navegação por seções com URL compartilhável;
-- formulário de contato integrado ao WhatsApp;
-- menu lateral expansível com navegação acessível;
+- layout responsivo para computadores, tablets e celulares;
+- temas claro e escuro com preferência armazenada localmente;
+- navegação lateral minimalista e acessível;
+- formulário de contato direcionado ao WhatsApp;
 - respeito à configuração `prefers-reduced-motion`;
-- projetos independentes organizados em uma única estrutura;
-- publicação estática pelo GitHub Pages.
+- projetos independentes organizados dentro do mesmo repositório;
+- aplicações com persistência local, consumo de APIs e funcionamento offline;
+- validação automática da sintaxe JavaScript com Node.js;
+- publicação estática por meio do GitHub Pages.
 
-## Tecnologias
+## Tecnologias e ferramentas
 
 | Área | Tecnologias |
 | --- | --- |
 | Estrutura | HTML5 semântico |
 | Interface | CSS3, Flexbox, Grid e Custom Properties |
 | Comportamento | JavaScript ES6+ e Web APIs |
-| Persistência | LocalStorage |
+| Dados locais | LocalStorage, JSON e CSV |
+| Integrações | Fetch API, APIs REST e WhatsApp |
+| Visualização | Chart.js |
 | Aplicação instalável | Web App Manifest, Service Worker e Cache API |
-| Qualidade | Node.js para validação automática de sintaxe |
-| Publicação | GitHub Pages |
+| Qualidade | Node.js e parser automático de JavaScript |
+| Publicação | Git, GitHub e GitHub Pages |
 
-O site não utiliza frameworks, dependências de produção ou processo de build. O Node.js é uma ferramenta opcional de desenvolvimento e não é necessário para acessar o portfólio.
+O portfólio não depende de frameworks ou de um processo de build para funcionar. O Node.js é utilizado somente no ambiente de desenvolvimento para validar os códigos antes da publicação.
 
-## Projetos apresentados
+## Projetos
 
-### Nexus Finance Dashboard
+### Nexus Finance
 
-Dashboard de finanças pessoais com gráficos dinâmicos, controle de receitas e despesas, orçamentos, metas e persistência local.
+Aplicação de finanças pessoais redesenhada para uso cotidiano, mantendo uma identidade visual escura com destaques em vermelho inspirada em plataformas de streaming.
 
-`HTML` `CSS` `JavaScript` `Chart.js` `LocalStorage`
+Recursos disponíveis:
+
+- visão geral com saldo disponível, entradas, saídas e resultado do período;
+- acompanhamento mensal, anual ou de todo o histórico;
+- múltiplas contas com configuração de saldo inicial;
+- lançamentos de receitas, despesas e aportes em metas;
+- controle de contas fixas, vencimentos e pagamentos;
+- orçamentos mensais por categoria com indicadores de progresso;
+- metas financeiras e acompanhamento do valor acumulado;
+- gráficos de fluxo financeiro e despesas por categoria;
+- busca e filtros no histórico de movimentações;
+- migração automática dos dados salvos pela versão anterior;
+- exportação e importação de lançamentos em CSV compatível com Excel;
+- modelo de planilha para preenchimento e importação;
+- backup e restauração completa dos dados em JSON;
+- armazenamento local com remoção restrita aos dados do próprio aplicativo.
+
+`HTML` `CSS` `JavaScript` `Chart.js` `LocalStorage` `CSV` `JSON`
+
+### Vö Performance
+
+Aplicativo pessoal de treinamento reorganizado como uma PWA mobile-first. O plano de treino foi estruturado para consulta e acompanhamento diário, preservando a identidade visual esportiva e as cores originais.
+
+Recursos disponíveis:
+
+- plano de treinamento de futevôlei organizado por sessões;
+- acompanhamento de exercícios, séries, repetições e evolução;
+- interface adaptada para uso no celular durante os treinos;
+- persistência do progresso no navegador;
+- manifesto próprio e possibilidade de instalação como aplicativo;
+- funcionamento offline com Service Worker e Cache API;
+- ícone compartilhado armazenado na pasta global de assets.
+
+`PWA` `JavaScript` `LocalStorage` `Service Worker` `Cache API`
 
 ### NexusWeather
 
-Interface de previsão do tempo que consulta uma API externa e apresenta temperatura, umidade, vento e condições climáticas.
+Aplicação de previsão do tempo com busca de cidades e dados meteorológicos obtidos de uma API externa. A interface apresenta informações de forma visual, com cartões inspirados em aplicativos móveis de clima.
+
+Recursos disponíveis:
+
+- consulta de cidades;
+- temperatura atual e sensação térmica;
+- previsão, umidade e velocidade do vento;
+- estados visuais de carregamento e tratamento de falhas;
+- layout responsivo e integração por Fetch API.
 
 `JavaScript` `Fetch API` `REST` `JSON`
 
 ### Nexus Setup
 
-Landing page de e-commerce com catálogo, filtros por categoria, carrinho de compras e finalização do pedido pelo WhatsApp.
+Landing page de e-commerce com apresentação de produtos, imagens relacionadas ao catálogo e simulação do fluxo de compra.
 
-`HTML` `CSS` `JavaScript` `Web API`
+Recursos disponíveis:
 
-### Futevôlei Performance
+- catálogo e filtros por categoria;
+- carrinho de compras simulado;
+- resumo do pedido;
+- finalização direcionada ao WhatsApp;
+- layout responsivo com estrutura de landing page.
 
-PWA mobile-first voltada a rotinas de treino, matchmaking e scouting, com manifesto próprio e funcionamento offline por Service Worker.
-
-`PWA` `Service Worker` `Cache API` `JavaScript`
+`HTML` `CSS` `JavaScript` `WhatsApp`
 
 ## Estrutura do repositório
 
@@ -66,12 +112,21 @@ PWA mobile-first voltada a rotinas de treino, matchmaking e scouting, com manife
 |-- assets/
 |   `-- images/
 |       |-- favicon.svg
-|       `-- perfil.jpg
+|       |-- perfil.jpg
+|       `-- vo-performance-icon.svg
 |-- projects/
+|   |-- App treino/
+|   |   |-- index.html
+|   |   |-- manifest.json
+|   |   `-- sw.js
 |   |-- clima/
+|   |   `-- index.html
 |   |-- dashboard-financeiro/
-|   |-- futevolei/
+|   |   |-- index.html
+|   |   |-- script.js
+|   |   `-- style.css
 |   `-- loja-nexus/
+|       `-- index.html
 |-- scripts/
 |   `-- validate-js.js
 |-- .gitignore
@@ -81,46 +136,59 @@ PWA mobile-first voltada a rotinas de treino, matchmaking e scouting, com manife
 `-- README.md
 ```
 
-Cada diretório em `projects/` contém uma demonstração independente e pode ser aberto por meio da seção de projetos do portfólio.
+Cada diretório em `projects/` representa uma demonstração independente, acessível pela seção de projetos do portfólio.
 
 ## Executar localmente
 
-Clone o repositório e entre na pasta:
+Clone o repositório e acesse a pasta:
 
 ```bash
 git clone https://github.com/BanchiLian/Portif-lio.git
 cd Portif-lio
 ```
 
-Como o projeto é estático, não há pacotes obrigatórios para instalar. Para recursos que exigem HTTP, como o Service Worker, utilize um servidor local:
+Como o projeto é estático, não existem dependências obrigatórias para visualizar as páginas. Para testar recursos que exigem HTTP, como Service Workers e chamadas de API, utilize um servidor local:
 
 ```bash
 npx serve .
 ```
 
-Também é possível utilizar a extensão Live Server do VS Code.
+Também é possível utilizar a extensão Live Server do Visual Studio Code.
 
 ## Validação com Node.js
 
-O repositório inclui uma verificação automática feita apenas com módulos nativos do Node.js. Ela percorre o projeto, analisa arquivos `.js` e também os blocos `<script>` embutidos nos arquivos HTML.
+O repositório possui um parser automático construído apenas com módulos nativos do Node.js. A verificação percorre os arquivos `.js` e os blocos `<script>` incorporados nos documentos HTML.
 
 ```bash
 npm run validate
 ```
 
-A validação retorna erro caso encontre JavaScript com sintaxe inválida. Nenhuma dependência precisa ser instalada para executar esse comando.
+O comando informa cada bloco analisado e encerra com erro caso encontre JavaScript com sintaxe inválida. Nenhuma dependência precisa ser instalada para executar a validação.
+
+## Persistência e privacidade
+
+Os aplicativos armazenam informações diretamente no navegador usando `localStorage`. No Nexus Finance, lançamentos também podem ser exportados para CSV e todos os dados podem ser preservados em um backup JSON.
+
+Esses dados não são enviados para um servidor. Por isso, é recomendável criar backups periódicos antes de limpar os dados do navegador ou trocar de dispositivo.
 
 ## Publicação
 
-O portfólio é publicado pelo GitHub Pages a partir da branch `main`. O arquivo `.nojekyll` garante que a estrutura estática seja servida sem processamento adicional do Jekyll.
+O portfólio é publicado pelo GitHub Pages a partir da branch `main`. O arquivo `.nojekyll` garante que a estrutura estática seja disponibilizada sem processamento adicional do Jekyll.
 
-## Próximas melhorias
+Antes de publicar uma alteração, o fluxo recomendado é:
 
-- substituir as imagens temporárias da seção “Sobre” por fotos próprias;
+```bash
+npm run validate
+git status
+```
+
+## Melhorias futuras
+
+- criar estudos de caso detalhados para os principais projetos;
 - disponibilizar o currículo em PDF;
-- criar estudos de caso detalhados dos principais projetos;
 - adicionar uma versão do conteúdo em inglês;
-- incluir testes automatizados de acessibilidade.
+- incluir testes automatizados de acessibilidade;
+- avaliar sincronização autenticada do Nexus Finance com serviços de planilha em nuvem.
 
 ## Autor
 

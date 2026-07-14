@@ -3,7 +3,7 @@ const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './icon.svg'
+  '../../assets/images/vo-performance-icon.svg'
 ];
 
 // Instala o motor e salva os arquivos no cache do celular
