@@ -1,0 +1,12 @@
+{
+  "name": "portfolio-elian-mori",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfólio pessoal de Elian Mori",
+  "scripts": {
+    "validate": "node scripts/validate-js.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
