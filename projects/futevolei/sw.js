@@ -1,8 +1,9 @@
-const CACHE_NAME = 'futevolei-v2';
+const CACHE_NAME = 'vo-performance-v3';
 const urlsToCache = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './icon.svg'
 ];
 
 // Instala o motor e salva os arquivos no cache do celular
@@ -11,6 +12,7 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
@@ -26,14 +28,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response; // Achou no cache, retorna!
-        }
-        return fetch(event.request); // Não achou, busca na internet
-      }
-    )
-  );
+  event.respondWith(fetch(event.request)
+    .then(response => {
+      const copy = response.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+      return response;
+    })
+    .catch(() => caches.match(event.request).then(response => response || caches.match('./index.html'))));
 });

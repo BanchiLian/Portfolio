@@ -1,421 +1,428 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Nexus Futevôlei Pro</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d0d0d">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fc4c02">
+  <meta name="description" content="Aplicativo pessoal para organizar treinos, atividades e evolução física.">
+  <title>Vö Performance</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
   <style>
     :root {
-      --bg-dark: #0d0d0d; --bg-card: #1a1a1a;
-      --primary: #caff04; --primary-dark: #9acc00;
-      --text-main: #ffffff; --text-muted: #888888;
-      --border: #333333; --danger: #ff3333;
+      --bg: #050505; --surface: #101010; --surface-2: #181818; --primary: #fc4c02;
+      --primary-soft: rgba(252, 76, 2, .14); --text: #f7f7f7; --muted: #8c8c8c;
+      --border: #262626; --success: #54d17a; --danger: #ff5f57; --radius: 16px;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg-dark); color: var(--text-main); display: flex; justify-content: center; }
-
-    .app-container { width: 100%; max-width: 480px; min-height: 100vh; background-color: var(--bg-dark); display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
-
-    /* VIEW MANAGEMENT */
-    .view { display: none; flex-direction: column; min-height: 100vh; animation: fadeIn 0.3s; padding-bottom: 40px;}
-    .view.active { display: flex; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-
-    /* SHARED HEADER */
-    .top-header { background: var(--bg-card); padding: 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10;}
-    .btn-back { background: transparent; border: none; color: var(--primary); font-size: 1.2rem; cursor: pointer; }
-    .top-header h2 { font-size: 1.2rem; font-weight: 800; }
-
-    /* ---------------- HOME SCREEN & WIDGETS ---------------- */
-    .home-header { text-align: center; padding: 40px 20px 20px; }
-    .home-header h1 { font-size: 2rem; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: -1px;}
-    .home-header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 5px; }
-
-    .widget-menu { display: flex; flex-direction: column; gap: 20px; padding: 20px; }
-    .widget-btn { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 30px 20px; display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.2s; }
-    .widget-btn:active { transform: scale(0.98); border-color: var(--primary); }
-    .w-icon { background: rgba(202, 255, 4, 0.1); color: var(--primary); width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; }
-    .w-text { text-align: left; }
-    .w-text h3 { font-size: 1.3rem; margin-bottom: 4px; }
-    .w-text p { font-size: 0.85rem; color: var(--text-muted); }
-
-    /* ---------------- FORMS & INPUTS ---------------- */
-    .form-container { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
-    .form-group { display: flex; flex-direction: column; gap: 8px; }
-    .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
-    .form-control { background: #000; border: 1px solid var(--border); color: #fff; padding: 15px; border-radius: 8px; font-size: 1rem; outline: none; }
-    .form-control:focus { border-color: var(--primary); }
-    
-    /* Range Slider */
-    input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--primary); cursor: pointer; margin-top: -8px; }
-    input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: var(--border); border-radius: 2px; }
-    .range-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 5px; }
-
-    .btn-submit { background: var(--primary); color: #000; border: none; padding: 16px; border-radius: 8px; font-size: 1.1rem; font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-    .btn-submit:active { background: var(--primary-dark); }
-
-    /* ---------------- ALUNO: TREINOS ---------------- */
-    .day-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 15px; }
-    .day-header { padding: 15px; font-weight: 600; display: flex; justify-content: space-between; cursor: pointer; }
-    .day-content-inner { display: none; padding: 15px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--border); font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
-    .day-card.active .day-content-inner { display: block; animation: fadeIn 0.3s; }
-    .day-card.active .day-header { color: var(--primary); }
-    .workouts-list { padding: 20px; display: flex; flex-direction: column; }
-
-    /* ---------------- JOGO: MATCHMAKING ---------------- */
-    .player-card { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-    .p-avatar { width: 50px; height: 50px; background: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .p-info h4 { font-size: 1.1rem; }
-    .p-info p { font-size: 0.8rem; color: var(--text-muted); }
-    .p-action { margin-left: auto; background: rgba(202, 255, 4, 0.2); color: var(--primary); border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; }
-
-    /* ---------------- PROFESSOR: SCOUTING ---------------- */
-    .scout-controls { display: flex; gap: 10px; padding: 20px; }
-    .btn-scout { flex: 1; padding: 12px; border: 1px solid var(--border); background: var(--bg-card); color: #fff; font-weight: 600; border-radius: 8px; }
-    .btn-scout.active-atk { background: var(--primary); color: #000; border-color: var(--primary); }
-    .btn-scout.active-err { background: var(--danger); color: #fff; border-color: var(--danger); }
-
-    .court-container { padding: 0 20px; display: flex; justify-content: center; }
-    .court { width: 100%; max-width: 300px; aspect-ratio: 1 / 2; border: 4px solid #fff; position: relative; background: #c2b280; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr); }
-    .net { position: absolute; top: 50%; left: -10px; right: -10px; height: 4px; background: #fff; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.5);}
-    
-    .zone { border: 1px dashed rgba(255,255,255,0.3); display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: bold; cursor: pointer; position: relative; }
-    .zone:active { background: rgba(255,255,255,0.2); }
-    
-    .mark { position: absolute; width: 12px; height: 12px; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none;}
-    .mark.atk { background-color: #000; border: 2px solid var(--primary); }
-    .mark.err { background-color: var(--danger); border: 2px solid #fff; }
-
+    *, *::before, *::after { box-sizing: border-box; }
+    html { color-scheme: dark; }
+    body { margin: 0; min-height: 100dvh; padding-bottom: 88px; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+    .app { width: min(100%, 900px); margin: auto; }
+    .topbar { position: sticky; top: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 14px; background: rgba(5,5,5,.9); backdrop-filter: blur(18px); border-bottom: 1px solid var(--border); }
+    .brand small { display: block; color: var(--primary); font-size: .65rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .brand strong { font-size: 1.25rem; letter-spacing: -.04em; }
+    .avatar { width: 42px; height: 42px; display: grid; place-items: center; border: 2px solid var(--primary); border-radius: 50%; background: var(--primary-soft); color: var(--primary); font-weight: 900; }
+    .view { display: none; padding: 22px 20px 30px; animation: enter .2s ease; }
+    .view.active { display: block; }
+    @keyframes enter { from { opacity: 0; transform: translateY(5px); } }
+    .page-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 22px; }
+    .page-head p { margin: 0 0 4px; color: var(--muted); font-size: .8rem; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 0; font-size: clamp(1.7rem, 6vw, 2.4rem); letter-spacing: -.05em; }
+    h2 { font-size: 1.05rem; }
+    .card { padding: 18px; margin-bottom: 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .card-head { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 15px; }
+    .card-head h2, .card-head p { margin: 0; }
+    .subtle { color: var(--muted); font-size: .8rem; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+    .stat { min-width: 0; padding: 15px 10px; border: 1px solid var(--border); border-radius: 13px; background: var(--surface); text-align: center; }
+    .stat strong { display: block; overflow: hidden; color: var(--text); font-size: clamp(1.3rem, 5vw, 2rem); line-height: 1.1; text-overflow: ellipsis; }
+    .stat span { color: var(--muted); font-size: .63rem; font-weight: 800; text-transform: uppercase; }
+    .progress { height: 7px; overflow: hidden; border-radius: 99px; background: var(--surface-2); }
+    .progress span { display: block; height: 100%; border-radius: inherit; background: var(--primary); transition: width .3s; }
+    .workout-title { margin: 0 0 3px; font-size: 1.25rem; }
+    .exercise { display: grid; grid-template-columns: 28px 1fr 68px 60px; gap: 8px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .exercise:last-child { border-bottom: 0; }
+    .exercise.completed .exercise-name { color: var(--muted); text-decoration: line-through; }
+    .check { width: 24px; height: 24px; accent-color: var(--primary); }
+    .exercise-name { min-width: 0; font-size: .86rem; font-weight: 700; }
+    .exercise-copy { min-width: 0; }
+    .exercise-copy > small { display: block; margin-top: 3px; color: var(--primary); font-size: .68rem; font-weight: 700; }
+    .exercise-copy details { margin-top: 7px; color: var(--muted); font-size: .7rem; font-weight: 400; }
+    .exercise-copy summary { cursor: pointer; color: var(--muted); font-weight: 700; }
+    .exercise-copy details p { margin: 7px 0 0; line-height: 1.5; }
+    .compact-input { width: 100%; padding: 8px 5px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface-2); color: var(--text); text-align: center; font-size: .78rem; }
+    .labels { display: grid; grid-template-columns: 28px 1fr 68px 60px; gap: 8px; color: var(--muted); font-size: .6rem; text-align: center; text-transform: uppercase; }
+    .labels span:nth-child(2) { text-align: left; }
+    .button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border: 1px solid transparent; border-radius: 10px; background: var(--primary); color: white; font-weight: 800; }
+    .button.secondary { border-color: var(--border); background: var(--surface-2); color: var(--text); }
+    .button.ghost { border-color: var(--primary); background: transparent; color: var(--primary); }
+    .button.danger { border-color: rgba(255,95,87,.35); background: rgba(255,95,87,.1); color: var(--danger); }
+    .button.small { min-height: 36px; padding: 7px 11px; font-size: .75rem; }
+    .button.full { width: 100%; }
+    .actions { display: flex; gap: 9px; flex-wrap: wrap; }
+    .timer { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 15px; margin: 14px 0; border-radius: 13px; background: var(--surface-2); }
+    .timer-display { font-variant-numeric: tabular-nums; font-size: 1.75rem; font-weight: 900; letter-spacing: -.05em; }
+    .water { display: grid; grid-template-columns: auto 1fr auto; gap: 15px; align-items: center; }
+    .water-value { text-align: center; }
+    .water-value strong { display: block; font-size: 1.8rem; }
+    .round-button { width: 42px; height: 42px; border: 1px solid var(--border); border-radius: 50%; background: var(--surface-2); color: var(--text); font-size: 1.25rem; }
+    .meal { display: flex; align-items: center; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+    .meal:last-child { border: 0; }
+    .meal input { accent-color: var(--primary); }
+    .meal span { flex: 1; font-size: .85rem; }
+    .meal small { color: var(--muted); }
+    .day-card { margin-bottom: 10px; border: 1px solid var(--border); border-radius: 13px; background: var(--surface); overflow: hidden; }
+    .day-summary { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 16px; border: 0; background: transparent; color: var(--text); text-align: left; }
+    .day-summary strong { display: block; }
+    .day-summary span { color: var(--muted); font-size: .75rem; }
+    .day-editor { display: none; padding: 0 16px 16px; }
+    .day-card.open .day-editor { display: block; }
+    .editor-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-bottom: 8px; }
+    .field { margin-bottom: 13px; }
+    .field label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .7rem; font-weight: 800; text-transform: uppercase; }
+    .field input, .field select, .field textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-2); color: var(--text); }
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; }
+    .list-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--border); }
+    .list-item:last-child { border: 0; }
+    .list-item strong { display: block; font-size: .88rem; }
+    .list-item span { color: var(--muted); font-size: .72rem; }
+    .list-value { color: var(--primary); font-weight: 900; text-align: right; }
+    .empty { padding: 25px 10px; color: var(--muted); text-align: center; font-size: .85rem; }
+    .bottom-nav { position: fixed; left: 50%; bottom: 0; z-index: 30; width: min(100%, 900px); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 6px calc(8px + env(safe-area-inset-bottom)); border-top: 1px solid var(--border); background: rgba(10,10,10,.96); backdrop-filter: blur(18px); transform: translateX(-50%); }
+    .nav-button { display: grid; place-items: center; gap: 3px; padding: 5px 2px; border: 0; background: transparent; color: var(--muted); }
+    .nav-button.active { color: var(--primary); }
+    .nav-icon { font-size: 1.15rem; line-height: 1; }
+    .nav-label { font-size: .58rem; font-weight: 800; text-transform: uppercase; }
+    .toast { position: fixed; left: 50%; bottom: 94px; z-index: 50; padding: 11px 16px; border-radius: 10px; background: var(--text); color: var(--bg); font-size: .8rem; font-weight: 800; opacity: 0; transform: translate(-50%, 20px); transition: .2s; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .file-input { display: none; }
+    @media (min-width: 760px) { .view { padding: 32px; } .dashboard-grid { display: grid; grid-template-columns: 1.4fr .8fr; gap: 14px; } .dashboard-grid .card { margin-bottom: 0; } }
+    @media (max-width: 480px) { .exercise { grid-template-columns: 25px 1fr 58px 52px; gap: 6px; } .labels { grid-template-columns: 25px 1fr 58px 52px; } .form-grid { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><small>Vö Performance</small><strong id="headerGreeting">Olá, atleta</strong></div>
+      <div class="avatar" id="avatar" aria-hidden="true">A</div>
+    </header>
 
-  <div class="app-container">
-
-    <div id="view-home" class="view active">
-      <div class="home-header">
-        <h1>Nexus Pro</h1>
-        <p>Selecione o seu modo de acesso</p>
-      </div>
-
-      <div class="widget-menu">
-        <div class="widget-btn" onclick="goTo('view-aluno-checkin')">
-          <div class="w-icon"><i class="fa-solid fa-dumbbell"></i></div>
-          <div class="w-text">
-            <h3>Área do Aluno</h3>
-            <p>Check-in diário e planilhas de treino.</p>
+    <main>
+      <section class="view active" id="todayView" data-view="today">
+        <div class="page-head"><div><p id="todayDate"></p><h1>Seu treino de hoje</h1></div></div>
+        <div class="stats">
+          <div class="stat"><strong id="streakStat">0</strong><span>sequência</span></div>
+          <div class="stat"><strong id="weekStat">0/0</strong><span>esta semana</span></div>
+          <div class="stat"><strong id="activityStat">0</strong><span>atividades</span></div>
+        </div>
+        <div class="dashboard-grid">
+          <article class="card" id="todayWorkoutCard"></article>
+          <div>
+            <article class="card">
+              <div class="card-head"><div><h2>Hidratação</h2><p class="subtle">Meta diária: 2,5 L</p></div></div>
+              <div class="water"><button class="round-button" id="waterMinus" type="button" aria-label="Remover um copo">−</button><div class="water-value"><strong id="waterValue">0,0 L</strong><div class="progress"><span id="waterProgress"></span></div></div><button class="round-button" id="waterPlus" type="button" aria-label="Adicionar um copo">+</button></div>
+            </article>
+            <article class="card">
+              <div class="card-head"><div><h2>Rotina alimentar</h2><p class="subtle">Checklist de hoje</p></div></div>
+              <div id="mealChecklist"></div>
+            </article>
           </div>
         </div>
+      </section>
 
-        <div class="widget-btn" onclick="goTo('view-jogo')">
-          <div class="w-icon"><i class="fa-solid fa-volleyball"></i></div>
-          <div class="w-text">
-            <h3>Modo Jogo</h3>
-            <p>Encontre parceiros para jogar agora.</p>
+      <section class="view" id="planView" data-view="plan">
+        <div class="page-head"><div><p>Organize sua rotina</p><h1>Plano semanal</h1></div></div>
+        <p class="subtle">Edite o nome do treino e os exercícios de cada dia. As mudanças são salvas automaticamente.</p>
+        <div id="planEditor"></div>
+      </section>
+
+      <section class="view" id="activitiesView" data-view="activities">
+        <div class="page-head"><div><p>Corrida, futevôlei e cardio</p><h1>Atividades</h1></div><button class="button small" id="toggleActivityForm" type="button">Registrar</button></div>
+        <form class="card" id="activityForm" hidden>
+          <div class="form-grid">
+            <div class="field"><label for="activityType">Tipo</label><select id="activityType"><option>Corrida</option><option>Futevôlei</option><option>Caminhada</option><option>Bicicleta</option><option>Outro</option></select></div>
+            <div class="field"><label for="activityDate">Data</label><input id="activityDate" type="date" required></div>
+            <div class="field"><label for="activityDuration">Duração (min)</label><input id="activityDuration" type="number" min="1" required></div>
+            <div class="field"><label for="activityDistance">Distância (km)</label><input id="activityDistance" type="number" min="0" step="0.01" placeholder="Opcional"></div>
           </div>
+          <div class="field"><label for="activityNotes">Observações</label><textarea id="activityNotes" rows="2" placeholder="Ritmo, intensidade, como você se sentiu..."></textarea></div>
+          <button class="button full" type="submit">Salvar atividade</button>
+        </form>
+        <div class="stats">
+          <div class="stat"><strong id="totalDistance">0</strong><span>km totais</span></div>
+          <div class="stat"><strong id="totalMinutes">0</strong><span>minutos</span></div>
+          <div class="stat"><strong id="totalActivities">0</strong><span>registros</span></div>
         </div>
+        <article class="card"><div class="card-head"><h2>Histórico</h2></div><div id="activitiesList"></div></article>
+      </section>
 
-        <div class="widget-btn" onclick="goTo('view-professor')">
-          <div class="w-icon"><i class="fa-solid fa-clipboard-user"></i></div>
-          <div class="w-text">
-            <h3>Área do Professor</h3>
-            <p>Scouting e gestão de alunos.</p>
+      <section class="view" id="progressView" data-view="progress">
+        <div class="page-head"><div><p>Acompanhe sem obsessão</p><h1>Evolução</h1></div><button class="button small" id="toggleMetricForm" type="button">Nova medida</button></div>
+        <form class="card" id="metricForm" hidden>
+          <div class="form-grid">
+            <div class="field"><label for="metricDate">Data</label><input id="metricDate" type="date" required></div>
+            <div class="field"><label for="metricWeight">Peso (kg)</label><input id="metricWeight" type="number" min="20" step="0.1" required></div>
+            <div class="field"><label for="metricFat">Gordura (%)</label><input id="metricFat" type="number" min="1" max="70" step="0.1" placeholder="Opcional"></div>
+            <div class="field"><label for="metricWaist">Cintura (cm)</label><input id="metricWaist" type="number" min="30" step="0.1" placeholder="Opcional"></div>
           </div>
+          <button class="button full" type="submit">Salvar medidas</button>
+        </form>
+        <div class="stats">
+          <div class="stat"><strong id="latestWeight">--</strong><span>peso atual</span></div>
+          <div class="stat"><strong id="weightChange">--</strong><span>variação</span></div>
+          <div class="stat"><strong id="latestFat">--</strong><span>gordura</span></div>
         </div>
-      </div>
-    </div>
+        <article class="card"><div class="card-head"><h2>Histórico corporal</h2></div><div id="metricsList"></div></article>
+      </section>
 
-    <div id="view-aluno-checkin" class="view">
-      <div class="top-header">
-        <button class="btn-back" onclick="goTo('view-home')"><i class="fa-solid fa-chevron-left"></i></button>
-        <h2>Check-in Diário</h2>
-      </div>
-
-      <form class="form-container" onsubmit="submitCheckin(event)">
-        <div class="form-group">
-          <label>Que horas você dormiu?</label>
-          <input type="time" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label>Que horas você acordou?</label>
-          <input type="time" class="form-control" required>
-        </div>
-        
-        <div class="form-group">
-          <label>Nível de Cansaço Geral</label>
-          <input type="range" min="0" max="100" step="25" value="0" id="fadiga-range" oninput="updateFadiga(this.value)">
-          <div class="range-labels">
-            <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
-          </div>
-          <p id="fadiga-text" style="text-align:center; color:var(--primary); font-weight:bold; margin-top:5px;">0% (Zerado)</p>
-        </div>
-
-        <div class="form-group">
-          <label>Nível de Dor Muscular</label>
-          <select class="form-control" required>
-            <option value="">Selecione...</option>
-            <option value="nenhuma">Nenhuma Dor</option>
-            <option value="leve">Leve (Tolerável)</option>
-            <option value="moderada">Moderada (Incomoda no treino)</option>
-            <option value="intensa">Intensa (Preciso de repouso)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Alimentação ontem foi:</label>
-          <select class="form-control" required>
-            <option value="">Selecione...</option>
-            <option value="100">100% na Dieta</option>
-            <option value="80">Dei uma escorregada leve</option>
-            <option value="lixo">Comi muito lixo</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn-submit">Salvar e Ver Treino</button>
-      </form>
-    </div>
-
-    <div id="view-aluno-menu-treinos" class="view">
-      <div class="top-header">
-        <button class="btn-back" onclick="goTo('view-aluno-checkin')"><i class="fa-solid fa-chevron-left"></i></button>
-        <h2>Meus Treinos</h2>
-      </div>
-
-      <div class="widget-menu">
-        <div class="widget-btn" onclick="goTo('view-aluno-areia')">
-          <div class="w-icon"><i class="fa-solid fa-umbrella-beach"></i></div>
-          <div class="w-text">
-            <h3>Treino na Areia</h3>
-            <p>Fundamentos, saltos e jogo.</p>
-          </div>
-        </div>
-
-        <div class="widget-btn" onclick="goTo('view-aluno-academia')">
-          <div class="w-icon"><i class="fa-solid fa-dumbbell"></i></div>
-          <div class="w-text">
-            <h3>Academia</h3>
-            <p>Força, explosão e core.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="view-aluno-areia" class="view">
-      <div class="top-header">
-        <button class="btn-back" onclick="goTo('view-aluno-menu-treinos')"><i class="fa-solid fa-chevron-left"></i></button>
-        <h2>Treino na Areia</h2>
-      </div>
-      <div class="workouts-list" id="lista-areia">
-        </div>
-    </div>
-
-    <div id="view-aluno-academia" class="view">
-      <div class="top-header">
-        <button class="btn-back" onclick="goTo('view-aluno-menu-treinos')"><i class="fa-solid fa-chevron-left"></i></button>
-        <h2>Academia</h2>
-      </div>
-      <div class="workouts-list" id="lista-academia">
-        </div>
-    </div>
-
-    <div id="view-jogo" class="view">
-      <div class="top-header">
-        <button class="btn-back" onclick="goTo('view-home')"><i class="fa-solid fa-chevron-left"></i></button>
-        <h2>Encontrar Parceiro</h2>
-      </div>
-
-      <form id="form-jogo-perfil" class="form-container" onsubmit="submitJogo(event)">
-        <div class="form-group"><label>Seu Nome</label><input type="text" class="form-control" required></div>
-        <div class="form-group"><label>Sua Idade</label><input type="number" class="form-control" required></div>
-        
-        <div class="form-group">
-          <label>Seu Nível</label>
-          <select class="form-control" required>
-            <option value="iniciante">Iniciante</option>
-            <option value="intermediario">Intermediário</option>
-            <option value="avancado">Avançado</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Lado de Preferência</label>
-          <select class="form-control" required>
-            <option value="direita">Direita</option>
-            <option value="esquerda">Esquerda</option>
-            <option value="ambos">Ambos (Direita e Esquerda)</option> </select>
-        </div>
-
-        <div class="form-group"><label>Região / Arena</label><input type="text" class="form-control" placeholder="Ex: Arena Vinhedo" required></div>
-
-        <button type="submit" class="btn-submit">Buscar Jogadores</button>
-      </form>
-
-      <div id="jogo-resultados" class="form-container" style="display: none;">
-        <h3 style="color: var(--primary); margin-bottom: 10px;">Jogadores Próximos:</h3>
-        
-        <div class="player-card">
-          <div class="p-avatar">🧑</div>
-          <div class="p-info"><h4>João Silva</h4><p>Intermediário • Lado Oposto</p></div>
-          <button class="p-action">Chamar</button>
-        </div>
-        
-        <div class="player-card">
-          <div class="p-avatar">👨‍s</div>
-          <div class="p-info"><h4>Carlos Mendes</h4><p>Avançado • Lado Oposto</p></div>
-          <button class="p-action">Chamar</button>
-        </div>
-
-        <button class="btn-submit" style="background: transparent; border: 1px solid var(--border); color: #fff;" onclick="resetJogo()">Voltar aos Filtros</button>
-      </div>
-    </div>
-
-    <div id="view-professor" class="view">
-      <div class="top-header">
-        <button class="btn-back" onclick="goTo('view-home')"><i class="fa-solid fa-chevron-left"></i></button>
-        <h2>Scouting da Partida</h2>
-      </div>
-
-      <div class="scout-controls">
-        <button id="btn-atk" class="btn-scout active-atk" onclick="setScoutMode('atk')">Ataque Adversário</button>
-        <button id="btn-err" class="btn-scout" onclick="setScoutMode('err')">Erro do Aluno</button>
-      </div>
-
-      <p style="text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">Toque na quadra para registrar o ponto.</p>
-
-      <div class="court-container">
-        <div class="court" id="scout-court" onclick="registerPoint(event)">
-          <div class="net"></div>
-          <div class="zone"></div><div class="zone"></div>
-          <div class="zone"></div><div class="zone"></div>
-          <div class="zone"></div><div class="zone"></div>
-          <div class="zone"></div><div class="zone"></div>
-        </div>
-      </div>
-      
-      <div style="padding: 20px;">
-        <button class="btn-submit" style="background: transparent; border: 1px solid var(--border); color: #fff;" onclick="document.getElementById('scout-court').innerHTML='<div class=\'net\'></div>'+'<div class=\'zone\'></div>'.repeat(8)">Limpar Quadra</button>
-      </div>
-
-    </div>
-
+      <section class="view" id="profileView" data-view="profile">
+        <div class="page-head"><div><p>Dados e segurança</p><h1>Perfil</h1></div></div>
+        <form class="card" id="profileForm">
+          <div class="field"><label for="profileName">Nome</label><input id="profileName" autocomplete="name" placeholder="Como quer ser chamado?"></div>
+          <div class="form-grid"><div class="field"><label for="waterGoal">Meta de água (ml)</label><input id="waterGoal" type="number" min="500" step="250"></div><div class="field"><label for="weeklyGoal">Treinos por semana</label><input id="weeklyGoal" type="number" min="1" max="7"></div></div>
+          <button class="button full" type="submit">Salvar perfil</button>
+        </form>
+        <article class="card">
+          <div class="card-head"><div><h2>Backup local</h2><p class="subtle">Seus dados ficam somente neste navegador.</p></div></div>
+          <div class="actions"><button class="button secondary" id="exportData" type="button">Exportar dados</button><button class="button secondary" id="importData" type="button">Importar dados</button><button class="button danger" id="resetData" type="button">Apagar tudo</button></div>
+          <input class="file-input" id="importFile" type="file" accept="application/json">
+        </article>
+        <article class="card"><h2>Sobre o acompanhamento</h2><p class="subtle">Este aplicativo organiza registros pessoais e não substitui orientação de profissionais de educação física, nutrição ou saúde.</p></article>
+      </section>
+    </main>
   </div>
 
+  <nav class="bottom-nav" aria-label="Navegação do aplicativo">
+    <button class="nav-button active" data-target="today" type="button"><span class="nav-icon">●</span><span class="nav-label">Hoje</span></button>
+    <button class="nav-button" data-target="plan" type="button"><span class="nav-icon">▦</span><span class="nav-label">Plano</span></button>
+    <button class="nav-button" data-target="activities" type="button"><span class="nav-icon">↗</span><span class="nav-label">Atividades</span></button>
+    <button class="nav-button" data-target="progress" type="button"><span class="nav-icon">⌁</span><span class="nav-label">Evolução</span></button>
+    <button class="nav-button" data-target="profile" type="button"><span class="nav-icon">○</span><span class="nav-label">Perfil</span></button>
+  </nav>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(error => {
-          console.warn('Não foi possível ativar o modo offline.', error);
-        });
-      });
-    }
-
-    // --- NAVEGAÇÃO DE TELAS ---
-    function goTo(viewId) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.getElementById(viewId).classList.add('active');
-      window.scrollTo(0,0);
-    }
-
-    // --- ALUNO: CHECK-IN ---
-    function updateFadiga(val) {
-      const labels = {
-        "0": "0% (Zerado)", "25": "25% (Leve)", "50": "50% (Cansado)", 
-        "75": "75% (Exausto)", "100": "100% (Morto)"
-      };
-      document.getElementById('fadiga-text').innerText = labels[val];
-    }
-
-    function submitCheckin(e) {
-      e.preventDefault();
-      // O Aluno preencheu o checkin, agora vai para o "Menu de Treinos"
-      goTo('view-aluno-menu-treinos');
-    }
-
-    // --- ALUNO: RENDERIZAÇÃO DOS TREINOS ---
-    const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
-    
-    const treinosAreia = [
-      "Foco: Deslocamento Curto. 4x10 tiros de 3 metros. <br> Ataque de Peito: 3x10 repetições.",
-      "Foco: Resistência. 5 minutos de trote na areia fofa. <br> Defesa base: 4x15 repetições.",
-      "Foco: Salto e Bloqueio. 4x8 saltos na rede simulando bloqueio.",
-      "Foco: Agilidade Lateral. 4x12 toques no cone em X.",
-      "Foco: Jogo Coletivo. Partida treino focada em comunicação."
+    const STORAGE_KEY = 'vo-performance-v3';
+    const days = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+    const defaultPlan = [
+      {
+        title: 'Reset de domingo', note: 'Alongamento relaxado e respiração. Sem pressa e sem dor.',
+        exercises: [
+          { name: 'Couch Stretch', prescription: '45–60s cada lado', instructions: 'Apoie o joelho de trás perto da parede, dê um passo à frente e contraia o glúteo mantendo o tronco ereto. Alivia a pressão lombar causada por corridas e chutes.' },
+          { name: 'Posterior de coxa sentado', prescription: '45–60s', instructions: 'Sente com as pernas esticadas, solte o ar lentamente e alcance as pontas dos pés relaxando o pescoço.' },
+          { name: 'Pigeon Pose', prescription: '45–60s cada lado', instructions: 'Dobre uma perna à frente, estique a outra para trás e incline o tronco até sentir o glúteo alongar.' },
+          { name: 'Panturrilha na parede', prescription: '45–60s cada perna', instructions: 'Apoie a ponta do pé na parede, mantenha o calcanhar no chão e aproxime o quadril da parede.' },
+          { name: 'Postura da criança', prescription: '60s', instructions: 'Sente nos calcanhares, estique os braços à frente e encoste testa e palmas no chão. Respire fundo pelo nariz e solte pela boca.' }
+        ]
+      },
+      {
+        title: 'Perna — força máxima + core', note: 'Descanso de 90–120s nos blocos pesados. Controle a fase excêntrica.',
+        exercises: [
+          { name: 'Agachamento livre com barra', prescription: '4 × 6–8', instructions: 'Barra sobre os trapézios. Desça controladamente além de 90°, com calcanhares no chão e joelhos alinhados aos pés. Base de força vertical para o salto.' },
+          { name: 'Leg press 45°', prescription: '3 × 10', instructions: 'Pés na largura dos ombros no meio da plataforma. Desça lentamente e empurre sem bloquear os joelhos. Sobrecarga de quadríceps com menor demanda lombar.' },
+          { name: 'Cadeira flexora', prescription: '4 × 12', instructions: 'Alinhe o joelho ao eixo da máquina. Contraia de forma explosiva e segure a descida por 3 segundos. Foco em posteriores da coxa.' },
+          { name: 'Panturrilha sentado — sóleo', prescription: '4 × 15', instructions: 'Alongue os calcanhares por 2 segundos, suba de forma explosiva e contraia no topo por 2 segundos.' },
+          { name: 'Prancha com carga', prescription: '4 × 45–60s', instructions: 'Antebraços alinhados aos ombros, carga sobre a região torácica/lombar e corpo alinhado sem deixar o quadril cair.' },
+          { name: 'Dead Bug com halter', prescription: '3 × 12 controladas', instructions: 'Lombar pressionada no chão, pernas a 90° e braços estendidos com halter leve. Alterne as pernas sem perder a posição.' }
+        ]
+      },
+      {
+        title: 'Peito, tríceps + core', note: 'Movimentos controlados e foco na estabilidade dos ombros.',
+        exercises: [
+          { name: 'Supino reto com halteres', prescription: '4 × 8–10', instructions: 'Desça os halteres na linha do peito de forma controlada e empurre explosivamente, aproximando-os no topo.' },
+          { name: 'Supino inclinado com halteres', prescription: '3 × 10–12', instructions: 'Banco entre 30° e 45°. Foque na porção superior do peito e mantenha punhos alinhados aos cotovelos.' },
+          { name: 'Tríceps testa com barra W', prescription: '3 × 10', instructions: 'Flexione apenas os cotovelos levando a barra à testa. Mantenha os cotovelos apontados para frente.' },
+          { name: 'Tríceps pulley', prescription: '3 × 12', instructions: 'Cotovelos fixos junto às costelas. Estenda totalmente e retorne controlando sem projetar os ombros.' },
+          { name: 'Prancha lateral com elevação de perna', prescription: '3 × 30–40s cada lado', instructions: 'Apoie no antebraço, eleve a perna de cima estendida e sustente sem deixar o quadril cair. Foco no glúteo médio.' },
+          { name: 'Mountain Climber cruzado', prescription: '3 × 30s intenso', instructions: 'Em posição de flexão, leve cada joelho ao cotovelo oposto em ritmo alto, mantendo quadril baixo e abdômen contraído.' }
+        ]
+      },
+      {
+        title: 'Perna — unilateral + pliometria', note: 'Drop Jump obrigatoriamente primeiro, antes de qualquer fadiga.',
+        exercises: [
+          { name: 'Drop Jump', prescription: '4 × 5', instructions: 'Desça de uma caixa de 30–40 cm e, ao tocar o solo, salte verticalmente o mais rápido possível. Finalize com aterrissagem silenciosa e joelhos alinhados.' },
+          { name: 'Agachamento búlgaro com halteres', prescription: '4 × 8 cada perna', instructions: 'Pé de trás apoiado no banco. Desça o quadril verticalmente e mantenha o joelho da frente firme e alinhado.' },
+          { name: 'Afundo inverso', prescription: '3 × 10 cada perna', instructions: 'Dê um passo largo para trás, abaixe o centro de gravidade e retorne empurrando com a perna da frente.' },
+          { name: 'Salto unilateral alternado na caixa', prescription: '3 × 6 cada perna', instructions: 'Salte para a caixa apoiado em um pé e aterrisse suavemente sobre o mesmo pé.' },
+          { name: 'Panturrilha em pé unilateral', prescription: '4 × 12 cada perna', instructions: 'Segure um halter no lado da perna ativa. Suba com força máxima e controle toda a descida.' },
+          { name: 'Hollow Hold', prescription: '4 × 40s', instructions: 'Pernas esticadas e braços acima da cabeça, mantendo apenas a lombar firme no chão e o abdômen contraído.' },
+          { name: 'Elevação de pernas na barra', prescription: '3 × 12', instructions: 'Pendurado com braços estendidos, eleve as pernas até 90° e desça sem balançar o corpo.' }
+        ]
+      },
+      {
+        title: 'Dia do atleta — corrida + areia', note: 'Corrida pela manhã e treino técnico/tático de futevôlei à noite.',
+        exercises: [
+          { name: 'Corrida de rodagem aeróbica', prescription: 'Zona 2–3 · volume controlado', instructions: 'Corrida contínua em ritmo moderado e confortável, com passada leve e respiração controlada. Desenvolve endurance para ralis longos.' },
+          { name: 'Movimentação específica na areia', prescription: 'Bloco técnico noturno', instructions: 'Drills de corrida lateral e deslocamento de costas na areia fofa.' },
+          { name: 'Fundamentos de futevôlei', prescription: 'Bloco técnico/tático', instructions: 'Treine recepção de peito, levantamento de perna ou cabeça e ataques, transferindo a força da academia para o jogo.' }
+        ]
+      },
+      {
+        title: 'Costas, bíceps + core', note: 'Controle escapular e fase excêntrica lenta nos exercícios de braço.',
+        exercises: [
+          { name: 'Puxada alta no pulley', prescription: '4 × 8–10', instructions: 'Pegada aberta, coxas travadas no suporte e barra puxada ao peitoral, aproximando as escápulas.' },
+          { name: 'Remada baixa sentada', prescription: '4 × 10', instructions: 'Coluna reta e joelhos levemente flexionados. Puxe o triângulo ao umbigo e segure 1 segundo.' },
+          { name: 'Rosca direta com barra', prescription: '3 × 12', instructions: 'Palmas para cima na largura dos ombros. Não projete os cotovelos e faça a descida em 3 segundos.' },
+          { name: 'Rosca martelo com halteres', prescription: '3 × 10', instructions: 'Use pegada neutra e movimento controlado para fortalecer braços, antebraços e pegada.' },
+          { name: 'Russian Twist com anilha', prescription: '3 × 20 cada lado', instructions: 'Incline o tronco, tire os pés do chão e gire tocando a anilha de um lado ao outro.' },
+          { name: 'Prancha com arrasto de halter', prescription: '3 × 12', instructions: 'Em prancha alta, arraste o halter por baixo do corpo com a mão oposta sem girar o quadril.' }
+        ]
+      },
+      {
+        title: 'Prevenção, regenerativo + ombro', note: 'Carga moderada, amplitude confortável e controle total. Priorize qualidade.',
+        exercises: [
+          { name: 'Mobilidade de tornozelo e quadril', prescription: '5–10 min', instructions: 'Movimentos dinâmicos e profundos para aumentar a flexibilidade ativa antes da sessão preventiva.' },
+          { name: 'Cossack Squat com halter leve', prescription: '3 × 8 cada lado', instructions: 'Pernas afastadas, desça para um lado com a outra perna esticada e mantenha o calcanhar apoiado.' },
+          { name: 'Adutora + abdutora — bi-set', prescription: '3 × 15 cada', instructions: 'Faça as máquinas sem descanso entre elas, com carga moderada, sem balanço e cadência controlada.' },
+          { name: 'Flexão nórdica reversa', prescription: '3 × 10', instructions: 'Ajoelhado e com tronco reto, incline o corpo para trás usando o quadríceps e retorne sem dobrar o quadril. Proteção do tendão patelar.' },
+          { name: 'Elevação pélvica unilateral', prescription: '3 × 12 cada perna', instructions: 'Costas apoiadas no banco, um pé no chão. Eleve o quadril e contraia o glúteo no topo.' },
+          { name: 'Desenvolvimento com halteres', prescription: '4 × 10', instructions: 'Sentado e com coluna apoiada, empurre acima da cabeça e desça até a linha das orelhas.' },
+          { name: 'YTWL com halteres leves', prescription: '3 × 10', instructions: 'De bruços no banco inclinado, desenhe Y, T, W e L com os braços. Foco postural e estabilização escapular.' },
+          { name: 'Superman dinâmico', prescription: '3 × 15', instructions: 'Eleve braços e pernas simultaneamente, segure 1 segundo contraindo lombar e glúteos e retorne devagar.' }
+        ]
+      }
     ];
+    const PLAN_VERSION = 'pdf-futevolei-v1';
+    const defaultState = { planVersion: PLAN_VERSION, profile: { name: '', waterGoal: 2500, weeklyGoal: 5 }, plan: defaultPlan, daily: {}, activities: [], metrics: [] };
+    let state = loadState();
+    let timerSeconds = 0;
+    let timerInterval = null;
+    let toastTimer;
 
-    const treinosAcademia = [
-      "Perna 1 (Força): Agachamento Livre 4x8, Leg Press 3x10, Elevação Pélvica 3x12.",
-      "Superiores (Puxar): Barra Fixa 4x8, Remada Curvada 4x10, Core Rotação 3x20.",
-      "Perna 2 (Unilateral): Búlgaro 4x10/perna, Afundo 3x12, Panturrilha 4x15.",
-      "Superiores (Empurrar): Supino Inclinado 4x10, Desenvolvimento 4x10, Core Flexão.",
-      "Perna 3 (Pliometria): Salto na Caixa 4x5, Kettlebell Swing 4x15."
-    ];
+    function cloneDefault() { return JSON.parse(JSON.stringify(defaultState)); }
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!saved?.profile) return cloneDefault();
+        const savedPlanIsCurrent = saved.planVersion === PLAN_VERSION && Array.isArray(saved.plan) && saved.plan.length === 7;
+        return {
+          ...cloneDefault(), ...saved,
+          planVersion: PLAN_VERSION,
+          plan: savedPlanIsCurrent ? saved.plan : JSON.parse(JSON.stringify(defaultPlan)),
+          profile: { ...defaultState.profile, ...saved.profile },
+          daily: savedPlanIsCurrent && saved.daily && typeof saved.daily === 'object' ? saved.daily : {},
+          activities: Array.isArray(saved.activities) ? saved.activities : [],
+          metrics: Array.isArray(saved.metrics) ? saved.metrics : []
+        };
+      } catch { return cloneDefault(); }
+    }
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    function dateKey(date = new Date()) { const year = date.getFullYear(); const month = String(date.getMonth() + 1).padStart(2, '0'); const day = String(date.getDate()).padStart(2, '0'); return `${year}-${month}-${day}`; }
+    function makeId() { return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`; }
+    function todayData() {
+      const key = dateKey();
+      if (!state.daily[key]) state.daily[key] = { exercises: {}, water: 0, meals: {}, workoutCompleted: false };
+      return state.daily[key];
+    }
+    function showToast(message) { clearTimeout(toastTimer); const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); toastTimer = setTimeout(() => toast.classList.remove('show'), 2200); }
+    function escapeHtml(value) { const div = document.createElement('div'); div.textContent = value; return div.innerHTML; }
 
-    // Função que insere os dias nas listas respectivas
-    function gerarDiasTreino(containerId, listaTreinos) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      diasSemana.forEach((dia, i) => {
-        container.innerHTML += `
-          <div class="day-card" onclick="this.classList.toggle('active')">
-            <div class="day-header">
-              <span>${dia}-feira</span>
-              <i class="fa-solid fa-chevron-down" style="font-size: 0.9rem;"></i>
-            </div>
-            <div class="day-content-inner">${listaTreinos[i]}</div>
-          </div>
-        `;
+    function switchView(target) {
+      document.querySelectorAll('.view').forEach(view => view.classList.toggle('active', view.dataset.view === target));
+      document.querySelectorAll('.nav-button').forEach(button => button.classList.toggle('active', button.dataset.target === target));
+      if (target === 'today') renderToday();
+      if (target === 'activities') renderActivities();
+      if (target === 'progress') renderProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function weekKeys() {
+      const now = new Date(); const mondayOffset = (now.getDay() + 6) % 7; const monday = new Date(now); monday.setDate(now.getDate() - mondayOffset);
+      return Array.from({ length: 7 }, (_, index) => { const date = new Date(monday); date.setDate(monday.getDate() + index); return dateKey(date); });
+    }
+    function streak() {
+      let count = 0; const cursor = new Date();
+      while (state.daily[dateKey(cursor)]?.workoutCompleted) { count += 1; cursor.setDate(cursor.getDate() - 1); }
+      return count;
+    }
+
+    function renderHeader() {
+      const name = state.profile.name.trim(); const first = name ? name.split(/\s+/)[0] : 'atleta';
+      document.getElementById('headerGreeting').textContent = `Olá, ${first}`;
+      document.getElementById('avatar').textContent = first.charAt(0).toUpperCase();
+    }
+
+    function renderToday() {
+      renderHeader();
+      const now = new Date(); const data = todayData(); const plan = state.plan[now.getDay()];
+      document.getElementById('todayDate').textContent = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).format(now);
+      const completedThisWeek = weekKeys().filter(key => state.daily[key]?.workoutCompleted).length;
+      document.getElementById('streakStat').textContent = streak();
+      document.getElementById('weekStat').textContent = `${completedThisWeek}/${state.profile.weeklyGoal}`;
+      document.getElementById('activityStat').textContent = state.activities.length;
+      const exercises = plan.exercises.map((exercise, index) => {
+        const record = data.exercises[index] || {};
+        return `<div class="exercise${record.done ? ' completed' : ''}" data-exercise="${index}"><input class="check" type="checkbox" ${record.done ? 'checked' : ''} aria-label="Concluir ${escapeHtml(exercise.name)}"><div class="exercise-copy"><span class="exercise-name">${escapeHtml(exercise.name)}</span><small>${escapeHtml(exercise.prescription)}</small><details><summary>Como executar</summary><p>${escapeHtml(exercise.instructions)}</p></details></div><input class="compact-input load-input" value="${escapeHtml(record.load || '')}" inputmode="decimal" placeholder="kg"><input class="compact-input reps-input" value="${escapeHtml(record.reps || '')}" inputmode="numeric" placeholder="reps"></div>`;
+      }).join('');
+      const doneCount = Object.values(data.exercises).filter(item => item.done).length;
+      const percent = plan.exercises.length ? Math.round(doneCount / plan.exercises.length * 100) : 0;
+      const timerLabel = timerInterval ? 'Pausar' : timerSeconds ? 'Continuar' : 'Iniciar';
+      document.getElementById('todayWorkoutCard').innerHTML = `<div class="card-head"><div><p class="subtle">${days[now.getDay()]}</p><h2 class="workout-title">${escapeHtml(plan.title)}</h2></div><strong>${percent}%</strong></div><p class="subtle">${escapeHtml(plan.note || '')}</p><div class="progress"><span style="width:${percent}%"></span></div><div class="timer"><div><span class="subtle">Tempo de treino</span><div class="timer-display" id="timerDisplay">00:00</div></div><div class="actions"><button class="button small ghost" id="timerToggle" type="button">${timerLabel}</button><button class="button small secondary" id="timerReset" type="button">Zerar</button></div></div><div class="labels"><span></span><span>Exercício</span><span>Carga</span><span>Reps</span></div><div id="exerciseList">${exercises || '<div class="empty">Dia de descanso. Edite seu plano se desejar.</div>'}</div><button class="button full" id="completeWorkout" type="button">${data.workoutCompleted ? 'Treino concluído ✓' : 'Concluir treino'}</button>`;
+      bindTodayWorkout(); renderWater(); renderMeals();
+    }
+
+    function bindTodayWorkout() {
+      document.querySelectorAll('.exercise').forEach(row => {
+        const index = row.dataset.exercise; const record = todayData().exercises[index] ||= {};
+        row.querySelector('.check').addEventListener('change', event => { record.done = event.target.checked; saveState(); renderToday(); });
+        row.querySelector('.load-input').addEventListener('change', event => { record.load = event.target.value; saveState(); });
+        row.querySelector('.reps-input').addEventListener('change', event => { record.reps = event.target.value; saveState(); });
       });
+      document.getElementById('completeWorkout').addEventListener('click', () => { const data = todayData(); data.workoutCompleted = !data.workoutCompleted; saveState(); showToast(data.workoutCompleted ? 'Treino concluído. Excelente trabalho!' : 'Conclusão removida.'); renderToday(); });
+      document.getElementById('timerToggle').addEventListener('click', toggleTimer);
+      document.getElementById('timerReset').addEventListener('click', resetTimer);
+      updateTimerDisplay();
+    }
+    function toggleTimer() { const button = document.getElementById('timerToggle'); if (timerInterval) { clearInterval(timerInterval); timerInterval = null; button.textContent = 'Continuar'; } else { timerInterval = setInterval(() => { timerSeconds += 1; updateTimerDisplay(); }, 1000); button.textContent = 'Pausar'; } }
+    function resetTimer() { clearInterval(timerInterval); timerInterval = null; timerSeconds = 0; updateTimerDisplay(); const button = document.getElementById('timerToggle'); if (button) button.textContent = 'Iniciar'; }
+    function updateTimerDisplay() { const display = document.getElementById('timerDisplay'); if (display) display.textContent = `${String(Math.floor(timerSeconds / 60)).padStart(2,'0')}:${String(timerSeconds % 60).padStart(2,'0')}`; }
+
+    function renderWater() { const data = todayData(); const goal = state.profile.waterGoal; document.getElementById('waterValue').textContent = `${(data.water / 1000).toFixed(1).replace('.', ',')} L`; document.getElementById('waterProgress').style.width = `${Math.min(100, data.water / goal * 100)}%`; }
+    function changeWater(amount) { const data = todayData(); data.water = Math.max(0, data.water + amount); saveState(); renderWater(); }
+    function renderMeals() { const meals = [['Café da manhã','08:00'],['Almoço','12:30'],['Lanche','16:00'],['Jantar','20:00']]; const data = todayData(); document.getElementById('mealChecklist').innerHTML = meals.map(([meal,time],index) => `<label class="meal"><input type="checkbox" data-meal="${index}" ${data.meals[index] ? 'checked' : ''}><span>${meal}</span><small>${time}</small></label>`).join(''); document.querySelectorAll('[data-meal]').forEach(input => input.addEventListener('change', event => { data.meals[event.target.dataset.meal] = event.target.checked; saveState(); })); }
+
+    function renderPlan() { const container = document.getElementById('planEditor'); container.innerHTML = state.plan.map((plan,index) => `<article class="day-card"><button class="day-summary" type="button"><div><strong>${days[index]}</strong><span>${escapeHtml(plan.title)}</span></div><b>+</b></button><div class="day-editor"><p class="subtle">${escapeHtml(plan.note || '')}</p><div class="field"><label>Nome do treino</label><input class="plan-title" data-day="${index}" value="${escapeHtml(plan.title)}"></div><div class="exercise-editor">${plan.exercises.map((exercise,exerciseIndex) => `<div class="editor-row"><div><input class="compact-input plan-exercise" data-day="${index}" data-index="${exerciseIndex}" value="${escapeHtml(exercise.name)}"><small class="subtle">${escapeHtml(exercise.prescription)}</small></div><button class="button small danger remove-exercise" data-day="${index}" data-index="${exerciseIndex}" type="button">×</button></div>`).join('')}</div><button class="button small secondary add-exercise" data-day="${index}" type="button">Adicionar exercício</button></div></article>`).join('');
+      document.querySelectorAll('.day-summary').forEach(button => button.addEventListener('click', () => button.closest('.day-card').classList.toggle('open')));
+      document.querySelectorAll('.plan-title').forEach(input => input.addEventListener('change', event => { state.plan[event.target.dataset.day].title = event.target.value.trim() || 'Descanso'; saveState(); renderPlan(); }));
+      document.querySelectorAll('.plan-exercise').forEach(input => input.addEventListener('change', event => { const exercise = state.plan[event.target.dataset.day].exercises[event.target.dataset.index]; exercise.name = event.target.value.trim() || 'Exercício'; saveState(); renderPlan(); }));
+      document.querySelectorAll('.add-exercise').forEach(button => button.addEventListener('click', () => { state.plan[button.dataset.day].exercises.push({ name: 'Novo exercício', prescription: 'Defina séries e repetições', instructions: 'Adicione sua orientação personalizada.' }); saveState(); renderPlan(); }));
+      document.querySelectorAll('.remove-exercise').forEach(button => button.addEventListener('click', () => { state.plan[button.dataset.day].exercises.splice(button.dataset.index,1); saveState(); renderPlan(); }));
     }
 
-    // Inicializa as duas listas em suas respectivas telas
-    gerarDiasTreino('lista-areia', treinosAreia);
-    gerarDiasTreino('lista-academia', treinosAcademia);
+    function renderActivities() { const totalMinutes = state.activities.reduce((sum,item) => sum + item.duration,0); const totalDistance = state.activities.reduce((sum,item) => sum + (item.distance || 0),0); document.getElementById('totalDistance').textContent = totalDistance.toFixed(1); document.getElementById('totalMinutes').textContent = totalMinutes; document.getElementById('totalActivities').textContent = state.activities.length; const list = document.getElementById('activitiesList'); list.innerHTML = state.activities.length ? [...state.activities].sort((a,b) => b.date.localeCompare(a.date)).map(item => `<div class="list-item"><div><strong>${escapeHtml(item.type)}</strong><span>${new Date(item.date+'T12:00:00').toLocaleDateString('pt-BR')} · ${item.duration} min${item.notes ? ' · '+escapeHtml(item.notes) : ''}</span></div><div><div class="list-value">${item.distance ? item.distance.toFixed(1)+' km' : 'Concluído'}</div><button class="remove-activity button small danger" data-id="${item.id}" type="button">Excluir</button></div></div>`).join('') : '<div class="empty">Nenhuma atividade registrada.</div>'; document.querySelectorAll('.remove-activity').forEach(button => button.addEventListener('click', () => { state.activities = state.activities.filter(item => item.id !== button.dataset.id); saveState(); renderActivities(); })); }
 
-    // --- JOGO: MATCHMAKING ---
-    function submitJogo(e) {
-      e.preventDefault();
-      document.getElementById('form-jogo-perfil').style.display = 'none';
-      document.getElementById('jogo-resultados').style.display = 'flex';
-      document.getElementById('jogo-resultados').style.flexDirection = 'column';
+    function renderProgress() { const sorted = [...state.metrics].sort((a,b) => a.date.localeCompare(b.date)); const latest = sorted.at(-1); const first = sorted[0]; document.getElementById('latestWeight').textContent = latest ? `${latest.weight.toFixed(1)}` : '--'; document.getElementById('weightChange').textContent = latest && first ? `${(latest.weight-first.weight).toFixed(1)}` : '--'; document.getElementById('latestFat').textContent = latest?.fat ? `${latest.fat.toFixed(1)}%` : '--'; const list = document.getElementById('metricsList'); list.innerHTML = sorted.length ? [...sorted].reverse().map(item => `<div class="list-item"><div><strong>${new Date(item.date+'T12:00:00').toLocaleDateString('pt-BR')}</strong><span>${item.waist ? `Cintura ${item.waist} cm` : 'Registro corporal'}${item.fat ? ` · Gordura ${item.fat}%` : ''}</span></div><div><div class="list-value">${item.weight.toFixed(1)} kg</div><button class="remove-metric button small danger" data-id="${item.id}" type="button">Excluir</button></div></div>`).join('') : '<div class="empty">Adicione sua primeira medida para acompanhar a evolução.</div>'; document.querySelectorAll('.remove-metric').forEach(button => button.addEventListener('click', () => { state.metrics = state.metrics.filter(item => item.id !== button.dataset.id); saveState(); renderProgress(); })); }
+
+    function setupForms() {
+      const today = dateKey(); document.getElementById('activityDate').value = today; document.getElementById('metricDate').value = today;
+      document.getElementById('toggleActivityForm').addEventListener('click', () => document.getElementById('activityForm').toggleAttribute('hidden'));
+      document.getElementById('toggleMetricForm').addEventListener('click', () => document.getElementById('metricForm').toggleAttribute('hidden'));
+      document.getElementById('activityForm').addEventListener('submit', event => { event.preventDefault(); state.activities.push({ id: makeId(), type: document.getElementById('activityType').value, date: document.getElementById('activityDate').value, duration: Number(document.getElementById('activityDuration').value), distance: Number(document.getElementById('activityDistance').value) || 0, notes: document.getElementById('activityNotes').value.trim() }); saveState(); event.target.reset(); document.getElementById('activityDate').value = today; event.target.hidden = true; renderActivities(); showToast('Atividade registrada.'); });
+      document.getElementById('metricForm').addEventListener('submit', event => { event.preventDefault(); state.metrics.push({ id: makeId(), date: document.getElementById('metricDate').value, weight: Number(document.getElementById('metricWeight').value), fat: Number(document.getElementById('metricFat').value) || null, waist: Number(document.getElementById('metricWaist').value) || null }); saveState(); event.target.reset(); document.getElementById('metricDate').value = today; event.target.hidden = true; renderProgress(); showToast('Medidas registradas.'); });
+      document.getElementById('profileForm').addEventListener('submit', event => { event.preventDefault(); state.profile = { name: document.getElementById('profileName').value.trim(), waterGoal: Number(document.getElementById('waterGoal').value) || 2500, weeklyGoal: Number(document.getElementById('weeklyGoal').value) || 5 }; saveState(); renderHeader(); showToast('Perfil salvo.'); });
     }
 
-    function resetJogo() {
-      document.getElementById('form-jogo-perfil').style.display = 'flex';
-      document.getElementById('jogo-resultados').style.display = 'none';
+    function setupBackup() {
+      document.getElementById('exportData').addEventListener('click', () => { const blob = new Blob([JSON.stringify(state,null,2)], { type:'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `vo-performance-backup-${dateKey()}.json`; link.click(); URL.revokeObjectURL(link.href); });
+      document.getElementById('importData').addEventListener('click', () => document.getElementById('importFile').click());
+      document.getElementById('importFile').addEventListener('change', event => { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const imported = JSON.parse(reader.result); if (!imported.profile || !Array.isArray(imported.plan)) throw new Error(); state = imported; saveState(); location.reload(); } catch { showToast('Arquivo de backup inválido.'); } }; reader.readAsText(file); });
+      document.getElementById('resetData').addEventListener('click', () => { if (confirm('Apagar definitivamente todos os registros deste aparelho?')) { localStorage.removeItem(STORAGE_KEY); location.reload(); } });
     }
 
-    // --- PROFESSOR: SCOUTING ---
-    let scoutMode = 'atk'; // 'atk' ou 'err'
-
-    function setScoutMode(mode) {
-      scoutMode = mode;
-      document.getElementById('btn-atk').classList.remove('active-atk');
-      document.getElementById('btn-err').classList.remove('active-err');
-      
-      if(mode === 'atk') document.getElementById('btn-atk').classList.add('active-atk');
-      if(mode === 'err') document.getElementById('btn-err').classList.add('active-err');
+    function init() {
+      renderHeader(); renderToday(); renderPlan(); renderActivities(); renderProgress();
+      document.getElementById('profileName').value = state.profile.name; document.getElementById('waterGoal').value = state.profile.waterGoal; document.getElementById('weeklyGoal').value = state.profile.weeklyGoal;
+      document.getElementById('waterMinus').addEventListener('click', () => changeWater(-250)); document.getElementById('waterPlus').addEventListener('click', () => changeWater(250));
+      document.querySelectorAll('.nav-button').forEach(button => button.addEventListener('click', () => switchView(button.dataset.target)));
+      setupForms(); setupBackup();
+      if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
     }
-
-    function registerPoint(e) {
-      const court = document.getElementById('scout-court');
-      const rect = court.getBoundingClientRect();
-      
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const mark = document.createElement('div');
-      mark.className = `mark ${scoutMode}`;
-      mark.style.left = `${x}px`;
-      mark.style.top = `${y}px`;
-
-      court.appendChild(mark);
-    }
+    init();
   </script>
 </body>
 </html>
