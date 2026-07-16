@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vo-performance-v4';
+const CACHE_NAME = 'vo-performance-v5';
 const urlsToCache = [
   './',
   './index.html',
