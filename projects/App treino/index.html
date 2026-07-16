@@ -156,7 +156,7 @@
           <div>
             <article class="card">
               <div class="card-head"><div><h2>Hidratação</h2><p class="subtle">Meta diária: 2,5 L</p></div></div>
-              <div class="water"><button class="round-button" id="waterMinus" type="button" aria-label="Remover um copo">−</button><div class="water-value"><strong id="waterValue">0,0 L</strong><div class="progress"><span id="waterProgress"></span></div></div><button class="round-button" id="waterPlus" type="button" aria-label="Adicionar um copo">+</button></div>
+              <div class="water"><button class="round-button" id="waterMinus" type="button" aria-label="Remover 100 mililitros">−</button><div class="water-value"><strong id="waterValue">0,0 L</strong><div class="progress"><span id="waterProgress"></span></div></div><button class="round-button" id="waterPlus" type="button" aria-label="Adicionar 100 mililitros">+</button></div>
             </article>
             <article class="card">
               <div class="card-head"><div><h2>Rotina alimentar</h2><p class="subtle">Checklist de hoje</p></div></div>
@@ -240,7 +240,7 @@
         <form class="card" id="profileForm">
           <div class="profile-photo"><div class="profile-photo-preview" id="profilePhotoPreview" aria-label="Foto de perfil">A</div><div><strong>Foto de perfil</strong><p class="subtle">Escolha uma imagem JPG, PNG ou WebP.</p><div class="profile-photo-actions"><button class="button small secondary" id="chooseProfilePhoto" type="button">Escolher foto</button><button class="button small danger" id="removeProfilePhoto" type="button">Remover</button></div><input class="file-input" id="profilePhotoInput" type="file" accept="image/jpeg,image/png,image/webp"></div></div>
           <div class="field"><label for="profileName">Nome</label><input id="profileName" autocomplete="name" placeholder="Como quer ser chamado?"></div>
-          <div class="form-grid"><div class="field"><label for="waterGoal">Meta de água (ml)</label><input id="waterGoal" type="number" min="500" step="250"></div><div class="field"><label for="weeklyGoal">Treinos por semana</label><input id="weeklyGoal" type="number" min="1" max="7"></div></div>
+          <div class="form-grid"><div class="field"><label for="waterGoal">Meta de água (ml)</label><input id="waterGoal" type="number" min="500" step="100"></div><div class="field"><label for="weeklyGoal">Treinos por semana</label><input id="weeklyGoal" type="number" min="1" max="7"></div></div>
           <button class="button full" type="submit">Salvar perfil</button>
         </form>
         <article class="card">
@@ -553,7 +553,7 @@
     function init() {
       renderHeader(); renderToday(); renderPlan(); renderActivities(); renderNutrition(); renderProgress();
       document.getElementById('profileName').value = state.profile.name; document.getElementById('waterGoal').value = state.profile.waterGoal; document.getElementById('weeklyGoal').value = state.profile.weeklyGoal;
-      document.getElementById('waterMinus').addEventListener('click', () => changeWater(-250)); document.getElementById('waterPlus').addEventListener('click', () => changeWater(250));
+      document.getElementById('waterMinus').addEventListener('click', () => changeWater(-100)); document.getElementById('waterPlus').addEventListener('click', () => changeWater(100));
       document.querySelectorAll('.nav-button').forEach(button => button.addEventListener('click', () => switchView(button.dataset.target)));
       setupForms(); setupProfilePhoto(); setupNutrition(); setupStrava(); setupBackup();
       if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
